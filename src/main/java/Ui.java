@@ -1,13 +1,12 @@
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Ui {
-    private Scanner scanner;
+    private IO io;
     private ArrayList<Lukuvinkki> list;
     private boolean applicationOn;
 
-    public Ui(Scanner scanner, ArrayList<Lukuvinkki> list) {
-        this.scanner = scanner;
+    public Ui(IO io, ArrayList<Lukuvinkki> list) {
+        this.io = io;
         this.list = list;
         this.applicationOn = true;
     }
@@ -17,13 +16,13 @@ public class Ui {
         }
     }
     public void mainOptions() {
-        System.out.println("Komennot: ");
-        System.out.println("1. Lisää lukuvinkki");
-        System.out.println("2. Listaa lukuvinkit");
-        System.out.println("3. Sulje ohjelma");
-        System.out.println("\nKomento: ");
+        io.print("Komennot: ");
+        io.print("1. Lisää lukuvinkki");
+        io.print("2. Listaa lukuvinkit");
+        io.print("3. Sulje ohjelma");
+        io.print("\nKomento: ");
 
-        String command = scanner.nextLine();
+        String command = io.nextCommand();
             if (command.equals("1")) {
                 addRecommendation();
             }
@@ -36,16 +35,16 @@ public class Ui {
     }
     public void addRecommendation() {
         while (true) {
-            System.out.println("\nLisää lukuvinkki");
-            System.out.println("\nOtsikko: ");
+            io.print("\nLisää lukuvinkki");
+            io.print("\nOtsikko: ");
 
-            String title = scanner.nextLine();
+            String title = io.nextCommand();
             if (title.equals("")) {
-                System.out.println("Otsikko ei voi olla tyhjä!");
+                io.print("Otsikko ei voi olla tyhjä!");
                 continue;
             } else {
-                System.out.println(title + " lisätty!");
-                System.out.println();
+                io.print(title + " lisätty!");
+                io.print("\n");
                 list.add(new Lukuvinkki(title));
                 break;
             }
@@ -54,11 +53,11 @@ public class Ui {
 
     }
     public void listRecommendations() {
-        System.out.println("\nTallennetut lukuvinkit: ");
+        io.print("\nTallennetut lukuvinkit: ");
         for (Lukuvinkki l : list) {
-            System.out.println(l.getOtsikko());
+            io.print(l.getOtsikko());
         }
-        System.out.println();
+        io.print("\n");
     }
 
     public void shutDown() {
