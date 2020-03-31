@@ -1,13 +1,11 @@
-import java.util.ArrayList;
-
 public class Ui {
     private IO io;
-    private ArrayList<Lukuvinkki> list;
+    private LukuvinkkienKasittely kasittely;
     private boolean applicationOn;
 
-    public Ui(IO io, ArrayList<Lukuvinkki> list) {
+    public Ui(IO io, LukuvinkkienKasittely kasittely) {
         this.io = io;
-        this.list = list;
+        this.kasittely = kasittely;
         this.applicationOn = true;
     }
     public void startUi() {
@@ -43,9 +41,9 @@ public class Ui {
                 io.print("Otsikko ei voi olla tyhjä!");
                 continue;
             } else {
+                kasittely.saveRecommendation(new Lukuvinkki(title));
                 io.print(title + " lisätty!");
                 io.print("\n");
-                list.add(new Lukuvinkki(title));
                 break;
             }
         }
@@ -54,7 +52,7 @@ public class Ui {
     }
     public void listRecommendations() {
         io.print("\nTallennetut lukuvinkit: ");
-        for (Lukuvinkki l : list) {
+        for (Lukuvinkki l : kasittely.getAllRecommendations()) {
             io.print(l.getOtsikko());
         }
         io.print("\n");
