@@ -1,9 +1,11 @@
 plugins {
     id 'checkstyle'
+	id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 apply plugin: 'java'
 apply plugin: 'application'
+apply plugin: 'jacoco' 
 
 mainClassName = 'Main'
 
@@ -11,16 +13,28 @@ run {
     standardInput = System.in
 }
 
-
 repositories {
     jcenter()
 }
 
 dependencies {
-    testCompile 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.12'
 }
 
 checkstyle {
     configFile = file("${rootProject.projectDir}/config/checkstyle/google_checks.xml")
     toolVersion = "8.31"
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Main'
+    }
 }
