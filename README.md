@@ -1,6 +1,8 @@
 # Lukuvinkkikirjasto
 
 [![CircleCI](https://circleci.com/gh/JakeKallioniemi/lukuvinkit.svg?style=svg)](https://circleci.com/gh/JakeKallioniemi/lukuvinkit)
+[![codecov](https://codecov.io/gh/JakeKallioniemi/lukuvinkit/branch/master/graph/badge.svg)](https://codecov.io/gh/JakeKallioniemi/lukuvinkit)
+[![Maintainability](https://api.codeclimate.com/v1/badges/d80fc686287d80a6d6ad/maintainability)](https://codeclimate.com/github/JakeKallioniemi/lukuvinkit/maintainability)
 
 ## Käynnistys
 
