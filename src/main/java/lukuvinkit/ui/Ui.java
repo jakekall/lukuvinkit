@@ -1,9 +1,16 @@
+package lukuvinkit.ui;
+
+import lukuvinkit.domain.Lukuvinkki;
+import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.io.IO;
+import lukuvinkit.io.KonsoliIO;
+
 public class Ui {
   private IO io;
   private LukuvinkkienKasittely kasittely;
   private boolean applicationOn;
 
-  public Ui(IO io, LukuvinkkienKasittely kasittely) {
+  public Ui(KonsoliIO io, LukuvinkkienKasittely kasittely) {
     this.io = io;
     this.kasittely = kasittely;
     this.applicationOn = true;

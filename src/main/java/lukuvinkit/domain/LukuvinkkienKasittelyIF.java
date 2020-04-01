@@ -1,3 +1,5 @@
+package lukuvinkit.domain;
+
 import java.util.ArrayList;
 
 public interface LukuvinkkienKasittelyIF {

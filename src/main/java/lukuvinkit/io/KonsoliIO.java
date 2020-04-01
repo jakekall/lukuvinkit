@@ -1,3 +1,5 @@
+package lukuvinkit.io;
+
 import java.util.Scanner;
 
 public class KonsoliIO implements IO {

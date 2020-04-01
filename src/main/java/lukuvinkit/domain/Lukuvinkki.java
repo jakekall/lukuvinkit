@@ -1,3 +1,5 @@
+package lukuvinkit.domain;
+
 public class Lukuvinkki {
   private String otsikko;
   private String tyyppi;
