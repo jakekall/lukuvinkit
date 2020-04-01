@@ -1,19 +1,19 @@
 import java.util.Scanner;
 
-public class KonsoliIO implements IO{
-    private Scanner scanner;
+public class KonsoliIO implements IO {
+  private Scanner scanner;
 
-    public KonsoliIO() {
-        scanner = new Scanner(System.in);
-    }
+  public KonsoliIO() {
+    scanner = new Scanner(System.in);
+  }
 
-    @Override
-    public void print(String s) {
-        System.out.println(s);
-    }
+  @Override
+  public void print(String s) {
+    System.out.println(s);
+  }
 
-    @Override
-    public String nextCommand() {
-        return scanner.nextLine();
-    }
+  @Override
+  public String nextCommand() {
+    return scanner.nextLine();
+  }
 }

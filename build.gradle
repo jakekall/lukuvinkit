@@ -1,3 +1,7 @@
+plugins {
+    id 'checkstyle'
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
 
@@ -14,4 +18,9 @@ repositories {
 
 dependencies {
     testCompile 'junit:junit:4.12'
+}
+
+checkstyle {
+    configFile = file("${rootProject.projectDir}/config/checkstyle/google_checks.xml")
+    toolVersion = "8.31"
 }
