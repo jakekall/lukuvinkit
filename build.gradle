@@ -13,12 +13,19 @@ run {
     standardInput = System.in
 }
 
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'io.cucumber:cucumber-java:5.5.0'
+    testImplementation 'io.cucumber:cucumber-junit:5.5.0'
 }
 
 checkstyle {
@@ -30,6 +37,23 @@ jacocoTestReport {
     reports {
         xml.enabled true
         html.enabled true
+    }
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testImplementation
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "io.cucumber.core.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--glue', 'lukuvinkit', 'src/test/resources', '--strict']
+        }
     }
 }
 
