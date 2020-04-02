@@ -5,8 +5,8 @@ import java.util.Scanner;
 public class KonsoliIO implements IO {
   private Scanner scanner;
 
-  public KonsoliIO() {
-    scanner = new Scanner(System.in);
+  public KonsoliIO(Scanner scanner) {
+    this.scanner = scanner;
   }
 
   @Override

@@ -10,7 +10,7 @@ public class Ui {
   private LukuvinkkienKasittely kasittely;
   private boolean applicationOn;
 
-  public Ui(KonsoliIO io, LukuvinkkienKasittely kasittely) {
+  public Ui(IO io, LukuvinkkienKasittely kasittely) {
     this.io = io;
     this.kasittely = kasittely;
     this.applicationOn = true;
@@ -49,7 +49,6 @@ public class Ui {
       String title = io.nextCommand();
       if (title.equals("")) {
         io.print("Otsikko ei voi olla tyhjä!");
-        continue;
       } else {
         kasittely.saveRecommendation(new Lukuvinkki(title));
         io.print(title + " lisätty!");
