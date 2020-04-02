@@ -17,7 +17,7 @@ dependencies {
     testImplementation 'io.cucumber:cucumber-junit:5.5.0'
 }
 
-mainClassName = 'Main'
+mainClassName = 'lukuvinkit.Main'
 
 run {
     standardInput = System.in
@@ -30,7 +30,7 @@ test {
 
 jar {
     manifest {
-        attributes 'Main-Class': 'Main'
+        attributes 'Main-Class': 'lukuvinkit.Main'
     }
 }
 
