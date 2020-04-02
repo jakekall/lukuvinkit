@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        strict = true,
+    strict = true,
     plugin = "pretty",
     features = "src/test/resources/lukuvinkit",
     snippets = SnippetType.CAMELCASE)

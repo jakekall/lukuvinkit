@@ -1,10 +1,9 @@
 package lukuvinkit;
 
+import java.util.Scanner;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.KonsoliIO;
 import lukuvinkit.ui.Ui;
-
-import java.util.Scanner;
 
 public class Main {
   public static void main(String[] args) {
