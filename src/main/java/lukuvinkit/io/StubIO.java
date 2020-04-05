@@ -6,11 +6,11 @@ import java.util.List;
 
 public class StubIO implements IO {
 
-  private ArrayDeque<String> commands;
+  private ArrayDeque<String> inputLines;
   private List<String> prints;
 
-  public StubIO(ArrayDeque<String> lines) {
-    this.commands = lines;
+  public StubIO(ArrayDeque<String> inputLines) {
+    this.inputLines = inputLines;
     this.prints = new ArrayList<>();
   }
 
@@ -23,8 +23,15 @@ public class StubIO implements IO {
     return prints;
   }
 
+  public void enterInput(String input) {
+    inputLines.add(input);
+  }
+
   @Override
   public String nextCommand() {
-    return commands.pollFirst();
+    if (inputLines.isEmpty()) {
+      return "3";
+    }
+    return inputLines.pollFirst();
   }
 }
