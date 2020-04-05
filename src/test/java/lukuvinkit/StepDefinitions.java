@@ -1,7 +1,5 @@
 package lukuvinkit;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertTrue;
 
 import io.cucumber.java.Before;
@@ -17,32 +15,34 @@ public class StepDefinitions {
   Ui app;
   LukuvinkkienKasittely kasittely;
   StubIO io;
-  ArrayDeque<String> inputLines;
 
   @Before
   public void setup() {
-    inputLines = new ArrayDeque<>();
+    io = new StubIO(new ArrayDeque<>());
+    kasittely = new LukuvinkkienKasittely();
   }
 
-  @Given("^command lisaa lukuvinkki is selected$")
-  public void command_lisaa_lukuvinkki_is_selected() {
-    inputLines.add("1");
-    assertThat("1", is(inputLines.peek()));
+  @Given("command {string} is selected")
+  public void commandIsSelected(String command) {
+    io.enterInput(command);
   }
 
   @When("title {string} is entered")
-  public void title_is_entered(String title) {
-    inputLines.add(title);
-    inputLines.add("3");
-
-    io = new StubIO(inputLines);
-    kasittely = new LukuvinkkienKasittely();
-    app = new Ui(io, kasittely);
-    app.startUi();
+  public void titleIsEntered(String title) {
+    io.enterInput(title);
   }
 
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) {
+    app = new Ui(io, kasittely);
+    app.startUi();
     assertTrue(io.getPrints().contains(message));
+  }
+
+  @Given("user successfully saves new lukuvinkki {string}")
+  public void userSuccessfullySavesNewLukuvinkki(String title) {
+    commandIsSelected("1");
+    titleIsEntered(title);
+    systemWillRespondWith(title + " lisätty!");
   }
 }
