@@ -40,6 +40,48 @@ public class Ui {
     }
   }
 
+  public void chooseRecommendationType() {
+    io.print("Lisää: ");
+    io.print("1. Kirja");
+    io.print("2. Video");
+    io.print("3. Blogi");
+    io.print("4. Podcast");
+    io.print("\nKomento: ");
+
+    String command = io.nextCommand();
+    if (command.equals("1")) {
+      addBook();
+    }
+    if (command.equals("2")) {
+
+    }
+    if (command.equals("3")) {
+
+    }
+    if (command.equals("4")) {
+
+    }
+  }
+
+  public void addBook() {
+    while(true) {
+      io.print("\nLisää kirja");
+      io.print("\nKirjoittaja: ");
+
+      String writer = io.nextCommand();
+      if (writer.equals("")) {
+        io.print("Kirjalle täytyy lisätä kirjoittaja!");
+        continue;
+      }
+      io.print("\nKirjan nimi: ");
+      String book = io.nextCommand();
+      if (writer.equals("")) {
+        io.print("Kirjlla täytyy lisätä nimi!");
+        continue;
+      }
+    }
+  }
+
   public void addRecommendation() {
     while (true) {
       io.print("\nLisää lukuvinkki");
