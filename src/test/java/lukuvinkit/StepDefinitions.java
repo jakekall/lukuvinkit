@@ -32,6 +32,9 @@ public class StepDefinitions {
     io.enterInput(title);
   }
 
+  @When("url {string} is entered")
+  public void urlIsEntered(String url) { io.enterInput(url);}
+
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) {
     app = new Ui(io, kasittely);
@@ -39,10 +42,13 @@ public class StepDefinitions {
     assertTrue(io.getPrints().contains(message));
   }
 
-  @Given("user successfully saves new lukuvinkki {string}")
-  public void userSuccessfullySavesNewLukuvinkki(String title) {
+  @Given("user successfully saves new lukuvinkki with title {string} and url {string}")
+  public void userSuccessfullySavesNewLukuvinkki(String title, String url) {
     commandIsSelected("1");
+    commandIsSelected("2");
     titleIsEntered(title);
-    systemWillRespondWith(title + " lisätty!");
+    urlIsEntered(url);
   }
+
+
 }
