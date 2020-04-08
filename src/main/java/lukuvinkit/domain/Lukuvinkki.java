@@ -15,4 +15,9 @@ public class Lukuvinkki {
   public void setOtsikko(String otsikko) {
     this.otsikko = otsikko;
   }
+
+  public String toString() {
+    return "Otsikko: " + this.otsikko;
+  }
 }
+
