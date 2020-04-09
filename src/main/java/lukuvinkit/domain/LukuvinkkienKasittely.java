@@ -15,7 +15,9 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   }
 
   @Override
-  public void deleteRecommendation(Lukuvinkki l) {}
+  public void deleteRecommendation(Lukuvinkki l) {
+    list.remove(l);
+  }
 
   @Override
   public void editRecommendation(Lukuvinkki l) {}
