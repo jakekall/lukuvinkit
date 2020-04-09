@@ -1,9 +1,15 @@
 package lukuvinkit.ui;
 
-import lukuvinkit.domain.*;
+import java.util.ArrayList;
+import lukuvinkit.domain.Blogpost;
+import lukuvinkit.domain.Kirja;
+import lukuvinkit.domain.Lukuvinkki;
+import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
 
 public class Ui {
+
   private IO io;
   private LukuvinkkienKasittely kasittely;
   private boolean applicationOn;
@@ -26,7 +32,8 @@ public class Ui {
     io.print("Komennot: ");
     io.print("1. Lisää lukuvinkki");
     io.print("2. Listaa lukuvinkit");
-    io.print("3. Sulje ohjelma");
+    io.print("3. Poista lukuvinkki");
+    io.print("4. Sulje ohjelma");
     io.print("\nKomento: ");
 
     String command = io.nextCommand();
@@ -37,6 +44,9 @@ public class Ui {
       listRecommendations();
     }
     if (command.equals("3")) {
+      removeRecommendation();
+    }
+    if (command.equals("4")) {
       shutDown();
     }
   }
@@ -139,9 +149,53 @@ public class Ui {
 
   public void listRecommendations() {
     io.print("\nTallennetut lukuvinkit: ");
-    for (Lukuvinkki l : kasittely.getAllRecommendations()) {
-      io.print(l.toString());
+    ArrayList<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
+    for (int i = 0; i < recommendations.size(); i++) {
+      io.print(i + 1 + ". " + recommendations.get(i).getOtsikko());
+    }
+    io.print("\n");
+  }
+
+  public void removeRecommendation() {
+    ArrayList<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
+    int count = recommendations.size();
+    if (count == 0) {
+      io.print("\nEi tallennettuja lukuvinkkejä");
       io.print("\n");
+      return;
+    }
+    while (true) {
+      io.print("\nPoistettavan lukuvinkin indeksi: ");
+      String input = io.nextCommand();
+      try {
+        int index = Integer.parseInt(input);
+        if (index < 1 || index > count) {
+          io.print("Indeksin täytyy olla välillä 1-" + count);
+          continue;
+        }
+        Lukuvinkki l = recommendations.get(index - 1);
+        if (confirm("Haluatko varmasti poistaa lukuvinkin \"" + l.getOtsikko() + "\"?")) {
+          kasittely.deleteRecommendation(l);
+          io.print("Lukuvinkki \"" + l.getOtsikko() + "\" poistettu");
+        }
+        break;
+      } catch (NumberFormatException e) {
+        io.print("Indeksin täytyy olla kokonaisluku");
+      }
+    }
+    io.print("\n");
+  }
+
+  private boolean confirm(String confirmationMessage) {
+    while (true) {
+      io.print(confirmationMessage + " [y/n]");
+      String input = io.nextCommand();
+      if (input.equals("y")) {
+        return true;
+      }
+      if (input.equals("n")) {
+        return false;
+      }
     }
   }
 
