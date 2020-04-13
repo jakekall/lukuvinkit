@@ -1,9 +1,16 @@
 package lukuvinkit.ui;
 
-import lukuvinkit.domain.*;
+import java.sql.SQLException;
+import java.util.List;
+import lukuvinkit.domain.Blogpost;
+import lukuvinkit.domain.Kirja;
+import lukuvinkit.domain.Lukuvinkki;
+import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
 
 public class Ui {
+
   private IO io;
   private LukuvinkkienKasittely kasittely;
   private boolean applicationOn;
@@ -16,13 +23,13 @@ public class Ui {
     this.typeToAdd = "";
   }
 
-  public void startUi() {
+  public void startUi() throws SQLException {
     while (applicationOn) {
       mainOptions();
     }
   }
 
-  public void mainOptions() {
+  public void mainOptions() throws SQLException {
     io.print("Komennot: ");
     io.print("1. Lisää lukuvinkki");
     io.print("2. Listaa lukuvinkit");
@@ -41,7 +48,7 @@ public class Ui {
     }
   }
 
-  public void chooseRecommendationType() {
+  public void chooseRecommendationType() throws SQLException {
     io.print("Lisää: ");
     io.print("1. Kirja");
     io.print("2. Video");
@@ -96,7 +103,7 @@ public class Ui {
     return "";
   }
 
-  public void addRecommendation() {
+  public void addRecommendation() throws SQLException {
     while (true) {
       io.print("\nLisää lukuvinkki");
       io.print("\nOtsikko: ");
@@ -109,6 +116,7 @@ public class Ui {
       if (typeToAdd.equals("Kirja")) {
         String writer = addWriter();
         Kirja kirja = new Kirja(title, writer);
+        System.out.println("kirja: " + kirja);
         saveToDatabase(kirja);
         break;
       }
@@ -131,17 +139,19 @@ public class Ui {
     mainOptions();
   }
 
-  public void saveToDatabase(Lukuvinkki lukuvinkki) {
+  public void saveToDatabase(Lukuvinkki lukuvinkki) throws SQLException {
     kasittely.saveRecommendation(lukuvinkki);
     io.print(lukuvinkki.getOtsikko() + " lisätty");
     io.print("\n");
   }
 
-  public void listRecommendations() {
+  public void listRecommendations() throws SQLException {
+    List<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
     io.print("\nTallennetut lukuvinkit: ");
-    for (Lukuvinkki l : kasittely.getAllRecommendations()) {
-      io.print(l.toString());
-      io.print("\n");
+    for (int i = 1; i < recommendations.size(); i++) {
+      Lukuvinkki l = recommendations.get(i);
+      io.print(i + ". " + l.getOtsikko());
+      io.print("Tyyppi: " + l.getTyyppi() + "\n");
     }
   }
 
