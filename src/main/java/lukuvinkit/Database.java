@@ -24,7 +24,6 @@ public class Database {
       Statement st = conn.createStatement();
 
       for (String command : commands) {
-        System.out.println("Running command >> " + command);
         st.executeUpdate(command);
       }
 

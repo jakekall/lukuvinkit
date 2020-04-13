@@ -150,7 +150,8 @@ public class Ui {
     io.print("\nTallennetut lukuvinkit: ");
     for (int i = 1; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
-      io.print(i + ". " + l.getOtsikko());
+      io.print(i + ".");
+      io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi() + "\n");
     }
   }
