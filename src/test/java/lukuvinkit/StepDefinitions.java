@@ -2,6 +2,7 @@ package lukuvinkit;
 
 import static org.junit.Assert.*;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,7 +17,7 @@ import lukuvinkit.dao.VideoDao;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.StubIO;
 import lukuvinkit.ui.Ui;
-import org.junit.After;
+
 
 public class StepDefinitions {
 
