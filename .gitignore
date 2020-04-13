@@ -5,3 +5,4 @@
 .settings/
 build/
 /.nb-gradle/
+database.db
