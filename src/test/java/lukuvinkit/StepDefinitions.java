@@ -2,14 +2,22 @@ package lukuvinkit;
 
 import static org.junit.Assert.*;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayDeque;
+import lukuvinkit.dao.BlogpostDao;
+import lukuvinkit.dao.KirjaDao;
+import lukuvinkit.dao.PodcastDao;
+import lukuvinkit.dao.VideoDao;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.StubIO;
 import lukuvinkit.ui.Ui;
+
 
 public class StepDefinitions {
 
@@ -20,7 +28,13 @@ public class StepDefinitions {
   @Before
   public void setup() {
     io = new StubIO(new ArrayDeque<>());
-    kasittely = new LukuvinkkienKasittely();
+    Database testDatabase = new Database("jdbc:sqlite:test.db");
+
+    BlogpostDao blogpostDao = new BlogpostDao(testDatabase);
+    KirjaDao kirjaDao = new KirjaDao(testDatabase);
+    PodcastDao podcastDao = new PodcastDao(testDatabase);
+    VideoDao videoDao = new VideoDao(testDatabase);
+    kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
   @Given("command {string} is selected")
@@ -39,9 +53,10 @@ public class StepDefinitions {
   }
 
   @Then("system will respond with {string}")
-  public void systemWillRespondWith(String message) {
+  public void systemWillRespondWith(String message) throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
+    System.out.println(io.getPrints());
     assertTrue(io.getPrints().contains(message));
   }
 
@@ -51,6 +66,16 @@ public class StepDefinitions {
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
+  }
+
+
+  @After
+  public void removeDatabase() {
+    File dbFile = new File("test.db");
+
+    if (dbFile.exists()) {
+      dbFile.delete();
+    }
   }
 
   @When("index {string} is entered")
@@ -64,7 +89,7 @@ public class StepDefinitions {
   }
   
   @Then("system will respond with warning {string}")
-  public void systemWillRespondWithWarning(String message) {
+  public void systemWillRespondWithWarning(String message) throws SQLException {
     io.enterInput("1");
     io.enterInput("n");
     app = new Ui(io, kasittely);
@@ -73,14 +98,14 @@ public class StepDefinitions {
   }
   
   @Then("lukuvinkki is not removed")
-  public void isNotRemoved() {
+  public void isNotRemoved() throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
     assertFalse(kasittely.getAllRecommendations().isEmpty());
   }
   
   @Then("lukuvinkki is removed")
-  public void isRemoved() {
+  public void isRemoved() throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
     assertTrue(kasittely.getAllRecommendations().isEmpty());

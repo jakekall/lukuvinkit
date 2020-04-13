@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation 'io.cucumber:cucumber-java:5.5.0'
     testImplementation 'io.cucumber:cucumber-junit:5.5.0'
+    compile group: 'org.xerial', name: 'sqlite-jdbc', version: '3.30.1'
 }
 
 mainClassName = 'lukuvinkit.Main'
