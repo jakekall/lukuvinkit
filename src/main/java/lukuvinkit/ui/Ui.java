@@ -8,6 +8,7 @@ import lukuvinkit.domain.Blogpost;
 import lukuvinkit.domain.Kirja;
 import lukuvinkit.domain.Lukuvinkki;
 import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.domain.Podcast;
 import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
 
@@ -106,7 +107,15 @@ public class Ui {
   }
 
   public String addDescription() {
-    return "";
+    while (true) {
+      io.print("\nKuvaus: ");
+      String description = io.nextCommand();
+      if (typeToAdd.equals("Podcast") && description.isEmpty()) {
+        io.print("kuvaus ei voi olla tyhjä!");
+      } else {
+        return description;
+      }
+    }
   }
 
   public void addRecommendation() throws SQLException {
@@ -121,25 +130,32 @@ public class Ui {
       }
       if (typeToAdd.equals("Kirja")) {
         String writer = addWriter();
-        Kirja kirja = new Kirja(title, writer);
+        String description = addDescription();
+        Kirja kirja = new Kirja(title, writer, description);
         System.out.println("kirja: " + kirja);
         saveToDatabase(kirja);
         break;
       }
       if (typeToAdd.equals("Video")) {
         String url = addUrl();
-        Video video = new Video(title, url);
+        String description = addDescription();
+        Video video = new Video(title, url, description);
         saveToDatabase(video);
         break;
       }
       if (typeToAdd.equals("Blogpost")) {
         String url = addUrl();
-        Blogpost blog = new Blogpost(title, url);
+        String description = addDescription();
+        Blogpost blog = new Blogpost(title, url, description);
         saveToDatabase(blog);
+        break;
       }
       if (typeToAdd.equals("Podcast")) {
-        // podcastin nimi pakollinen
-        // pakollinen kuvaus
+        String url = addUrl();
+        String description = addDescription();
+        Podcast podcast = new Podcast(title, url, description);
+        saveToDatabase(podcast);
+        break;
       }
     }
     mainOptions();

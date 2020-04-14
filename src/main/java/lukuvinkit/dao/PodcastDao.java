@@ -22,7 +22,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-        .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus) VALUES (?, ?, ?)");
+        .prepareStatement("INSERT INTO Podcast (otsikko, url, kuvaus) VALUES (?, ?, ?)");
 
     stmt.setString(1, podcast.getOtsikko());
     stmt.setString(2, podcast.getUrl());
