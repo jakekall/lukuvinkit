@@ -106,7 +106,7 @@ public class Ui {
   }
 
   public List<String> addTags() {
-    io.print("\nTägit (erottele pilkulla): ");
+    io.print("\nTagit (erottele pilkulla): ");
     String tags = io.nextCommand();
     return TagParser.stringToList(tags);
   }
@@ -169,6 +169,9 @@ public class Ui {
       Lukuvinkki l = recommendations.get(i);
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
+      if (!l.getTags().isEmpty()) {
+        io.print("Tagit: " + l.getTags());
+      }
       io.print("Tyyppi: " + l.getTyyppi() + "\n");
     }
   }

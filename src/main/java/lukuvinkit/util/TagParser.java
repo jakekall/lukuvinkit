@@ -11,7 +11,8 @@ public class TagParser {
   }
 
   public static List<String> stringToList(String tags) {
-    if (tags.trim().isEmpty()) {
+    tags = tags.trim();
+    if (tags.isEmpty()) {
       return new ArrayList<>();
     }
     return new ArrayList<>(Arrays.asList(tags.split("\\s*,\\s*")));

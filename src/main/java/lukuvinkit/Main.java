@@ -1,5 +1,6 @@
 package lukuvinkit;
 
+import lukuvinkit.db.Database;
 import java.util.Scanner;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;

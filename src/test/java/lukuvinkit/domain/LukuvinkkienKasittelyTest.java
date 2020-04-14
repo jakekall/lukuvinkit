@@ -1,23 +1,21 @@
 package lukuvinkit.domain;
 
-import io.cucumber.java.After;
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import lukuvinkit.Database;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
+import lukuvinkit.db.TestDatabase;
 import org.junit.Before;
+import org.junit.After;
 import org.junit.Test;
 
 public class LukuvinkkienKasittelyTest {
 
-  private Database testDatabase;
-
+  private TestDatabase testDatabase;
   private BlogpostDao blogpostDao;
   private KirjaDao kirjaDao;
   private PodcastDao podcastDao;
@@ -27,13 +25,7 @@ public class LukuvinkkienKasittelyTest {
 
   @Before
   public void setup() {
-    File dbFile = new File("test.db");
-
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
-
-    testDatabase = new Database("jdbc:sqlite:test.db");
+    testDatabase = new TestDatabase();
 
     blogpostDao = new BlogpostDao(testDatabase);
     kirjaDao = new KirjaDao(testDatabase);
@@ -42,14 +34,10 @@ public class LukuvinkkienKasittelyTest {
 
     lukuvinkkienKasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
-
+  
   @After
-  public void removeDatabase() {
-    File dbFile = new File("test.db");
-
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
+  public void cleanup() {
+    testDatabase.close();
   }
   
   @Test
