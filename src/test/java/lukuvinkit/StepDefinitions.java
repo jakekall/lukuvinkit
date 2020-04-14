@@ -27,7 +27,7 @@ public class StepDefinitions {
   TestDatabase testDatabase;
 
   @Before
-  public void setup() {
+  public void setup() throws SQLException {
     io = new StubIO(new ArrayDeque<>());
     testDatabase = new TestDatabase();
 
@@ -39,7 +39,7 @@ public class StepDefinitions {
   }
 
   @After
-  public void cleanup() {
+  public void cleanup() throws SQLException {
     testDatabase.close();
   }
   
@@ -71,7 +71,8 @@ public class StepDefinitions {
     assertTrue(io.getPrints().contains(message));
   }
 
-  @Given("user successfully saves new lukuvinkki with title {string} and url {string} and tags {string}")
+  @Given("user successfully saves new lukuvinkki with title {string}"
+          + " and url {string} and tags {string}")
   public void userSuccessfullySavesNewLukuvinkki(String title, String url, String tags) {
     commandIsSelected("1");
     commandIsSelected("2");

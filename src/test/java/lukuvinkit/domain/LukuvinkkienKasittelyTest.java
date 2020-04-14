@@ -9,8 +9,8 @@ import lukuvinkit.dao.KirjaDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
 import lukuvinkit.db.TestDatabase;
-import org.junit.Before;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 public class LukuvinkkienKasittelyTest {
@@ -24,7 +24,7 @@ public class LukuvinkkienKasittelyTest {
   private LukuvinkkienKasittely lukuvinkkienKasittely;
 
   @Before
-  public void setup() {
+  public void setup() throws SQLException {
     testDatabase = new TestDatabase();
 
     blogpostDao = new BlogpostDao(testDatabase);
@@ -36,7 +36,7 @@ public class LukuvinkkienKasittelyTest {
   }
   
   @After
-  public void cleanup() {
+  public void cleanup() throws SQLException {
     testDatabase.close();
   }
   
@@ -61,15 +61,4 @@ public class LukuvinkkienKasittelyTest {
     assertEquals(savedKirja.getKirjailija(), kirja.getKirjailija());
   }
 
-  @Test
-  public void lukuvinkkienKasittelyReturnsAllAddedLukuvinkit() {
-//    LukuvinkkienKasittely lukuvinkkienKasittely = new LukuvinkkienKasittely();
-//
-//    lukuvinkkienKasittely.saveRecommendation(new Lukuvinkki(""));
-//    lukuvinkkienKasittely.saveRecommendation(new Lukuvinkki(""));
-//    lukuvinkkienKasittely.saveRecommendation(new Lukuvinkki(""));
-//    lukuvinkkienKasittely.saveRecommendation(new Lukuvinkki(""));
-//
-//    assertEquals(4, lukuvinkkienKasittely.getAllRecommendations().size());
-  }
 }

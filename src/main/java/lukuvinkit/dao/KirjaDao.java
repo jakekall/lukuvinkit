@@ -24,7 +24,8 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Kirja (otsikko, kirjailija, kuvaus, tags) VALUES (?, ?, ?, ?)");
+            .prepareStatement("INSERT INTO Kirja (otsikko, kirjailija, kuvaus, tags)"
+                    + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, kirja.getOtsikko());
     stmt.setString(2, kirja.getKirjailija());
@@ -89,7 +90,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
       String kirjailija = rs.getString("kirjailija");
       String kuvaus = rs.getString("kuvaus");
       List<String> tags = TagParser.stringToList(rs.getString("tags"));
-      
+
       books.add(new Kirja(id, otsikko, kirjailija, kuvaus, tags));
     }
 

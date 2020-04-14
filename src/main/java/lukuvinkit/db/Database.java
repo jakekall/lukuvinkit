@@ -40,13 +40,17 @@ public class Database {
     ArrayList<String> commandsList = new ArrayList<>();
 
     commandsList.add(
-        "CREATE TABLE Blogpost (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Blogpost (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
     commandsList.add(
-        "CREATE TABLE Kirja (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, kirjailija varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Kirja (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " kirjailija varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
     commandsList.add(
-        "CREATE TABLE Podcast (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255) NOT NULL, tags varchar(255));");
+            "CREATE TABLE Podcast (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255) NOT NULL, tags varchar(255));");
     commandsList.add(
-        "CREATE TABLE Video (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Video (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
 
     return commandsList;
   }

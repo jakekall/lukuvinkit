@@ -39,11 +39,11 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   @Override
   public void deleteRecommendation(Lukuvinkki l) throws SQLException {
     int id = l.getId();
-    
+
     if (l.getTyyppi() == LukuvinkkiTyyppi.BLOGPOST) {
       blogpostDao.delete(id);
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.KIRJA) {
-     kirjaDao.delete(id);
+      kirjaDao.delete(id);
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.PODCAST) {
       podcastDao.delete(id);
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.VIDEO) {

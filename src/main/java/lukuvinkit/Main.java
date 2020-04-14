@@ -1,11 +1,11 @@
 package lukuvinkit;
 
-import lukuvinkit.db.Database;
 import java.util.Scanner;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
+import lukuvinkit.db.Database;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.KonsoliIO;
 import lukuvinkit.ui.Ui;

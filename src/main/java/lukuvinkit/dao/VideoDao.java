@@ -23,7 +23,8 @@ public class VideoDao implements Dao<Video, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-        .prepareStatement("INSERT INTO Video (otsikko, url, kuvaus, tags) VALUES (?, ?, ?, ?)");
+            .prepareStatement("INSERT INTO Video (otsikko, url, kuvaus, tags)"
+                    + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, video.getOtsikko());
     stmt.setString(2, video.getUrl());
@@ -84,7 +85,7 @@ public class VideoDao implements Dao<Video, Integer> {
       String url = rs.getString("url");
       String kuvaus = rs.getString("kuvaus");
       List<String> tags = TagParser.stringToList(rs.getString("tags"));
-      
+
       videos.add(new Video(id, otsikko, url, kuvaus, tags));
     }
 

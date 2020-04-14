@@ -23,7 +23,8 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus, tags) VALUES (?, ?, ?, ?)");
+            .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus, tags)"
+                    + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, podcast.getOtsikko());
     stmt.setString(2, podcast.getUrl());
@@ -84,7 +85,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
       String url = rs.getString("url");
       String kuvaus = rs.getString("kuvaus");
       List<String> tags = TagParser.stringToList(rs.getString("tags"));
-      
+
       podcasts.add(new Podcast(id, otsikko, url, kuvaus, tags));
     }
 

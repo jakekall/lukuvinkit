@@ -12,13 +12,10 @@ public class TestDatabase extends Database {
   private Connection conn;
   private String databaseUrl;
 
-  public TestDatabase() {
+  public TestDatabase() throws SQLException {
     super(null);
     databaseUrl = "jdbc:sqlite:file::memory:?cache=shared";
-    try {
-      conn = DriverManager.getConnection(databaseUrl);
-    } catch (SQLException e) {
-    }
+    conn = DriverManager.getConnection(databaseUrl);
     init();
   }
 
@@ -27,23 +24,19 @@ public class TestDatabase extends Database {
     return DriverManager.getConnection(databaseUrl);
   }
 
-  public void close() {
-    try {
-      conn.close();
-    } catch (SQLException e) {
-    }
+  public void close() throws SQLException {
+    conn.close();
   }
 
   private void init() {
     List<String> commands = sqliteLauseet();
 
-    try ( Connection conn = getConnection()) {
+    try (Connection conn = getConnection()) {
       Statement st = conn.createStatement();
 
       for (String command : commands) {
         st.executeUpdate(command);
       }
-
     } catch (Throwable t) {
       System.out.println("Error >> " + t.getMessage());
     }
@@ -53,13 +46,17 @@ public class TestDatabase extends Database {
     ArrayList<String> commandsList = new ArrayList<>();
 
     commandsList.add(
-            "CREATE TABLE Blogpost (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Blogpost (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
     commandsList.add(
-            "CREATE TABLE Kirja (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, kirjailija varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Kirja (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " kirjailija varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
     commandsList.add(
-            "CREATE TABLE Podcast (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255) NOT NULL, tags varchar(255));");
+            "CREATE TABLE Podcast (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255) NOT NULL, tags varchar(255));");
     commandsList.add(
-            "CREATE TABLE Video (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL, url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE Video (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
+            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
 
     return commandsList;
   }

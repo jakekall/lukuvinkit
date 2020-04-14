@@ -23,7 +23,8 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Blogpost (otsikko, url, kuvaus, tags) VALUES (?, ?, ?, ?)");
+            .prepareStatement("INSERT INTO Blogpost (otsikko, url, kuvaus, tags)"
+                    + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, blogpost.getOtsikko());
     stmt.setString(2, blogpost.getUrl());
