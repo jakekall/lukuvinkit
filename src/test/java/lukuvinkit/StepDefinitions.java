@@ -1,6 +1,7 @@
 package lukuvinkit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -82,12 +83,12 @@ public class StepDefinitions {
   public void indexIsEntered(String index) {
     io.enterInput(index);
   }
-  
+
   @When("confirmation {string} is entered")
   public void confitmationIsEntered(String confirmation) {
     io.enterInput(confirmation);
   }
-  
+
   @Then("system will respond with warning {string}")
   public void systemWillRespondWithWarning(String message) throws SQLException {
     io.enterInput("1");
@@ -96,14 +97,14 @@ public class StepDefinitions {
     app.startUi();
     assertTrue(io.getPrints().contains(message));
   }
-  
+
   @Then("lukuvinkki is not removed")
   public void isNotRemoved() throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
     assertFalse(kasittely.getAllRecommendations().isEmpty());
   }
-  
+
   @Then("lukuvinkki is removed")
   public void isRemoved() throws SQLException {
     app = new Ui(io, kasittely);

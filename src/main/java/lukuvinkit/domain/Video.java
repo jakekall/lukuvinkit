@@ -1,6 +1,7 @@
 package lukuvinkit.domain;
 
 public class Video extends Lukuvinkki {
+
   private String url;
 
   public Video(String otsikko, String url) {

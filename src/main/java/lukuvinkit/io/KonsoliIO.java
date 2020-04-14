@@ -3,6 +3,7 @@ package lukuvinkit.io;
 import java.util.Scanner;
 
 public class KonsoliIO implements IO {
+
   private Scanner scanner;
 
   public KonsoliIO(Scanner scanner) {

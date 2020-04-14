@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class KonsoliIOTest {
+
   Scanner scanner;
   KonsoliIO io;
 

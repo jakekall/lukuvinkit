@@ -36,7 +36,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
 
     System.out.println(generatedKeys);
 
-    if(generatedKeys.next()) {
+    if (generatedKeys.next()) {
       id = generatedKeys.getInt(1);
     }
 

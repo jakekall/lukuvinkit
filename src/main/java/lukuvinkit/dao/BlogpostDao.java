@@ -33,7 +33,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
     int id = -1;
     ResultSet generatedKeys = stmt.getGeneratedKeys();
 
-    if(generatedKeys.next()) {
+    if (generatedKeys.next()) {
       id = generatedKeys.getInt(1);
     }
 

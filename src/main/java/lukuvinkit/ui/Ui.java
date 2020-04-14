@@ -2,8 +2,8 @@ package lukuvinkit.ui;
 
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import lukuvinkit.domain.Blogpost;
 import lukuvinkit.domain.Kirja;
 import lukuvinkit.domain.Lukuvinkki;
@@ -206,6 +206,7 @@ public class Ui {
 
     }
   }
+
   public void shutDown() {
     applicationOn = false;
   }

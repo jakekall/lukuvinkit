@@ -33,7 +33,7 @@ public class VideoDao implements Dao<Video, Integer> {
     int id = -1;
     ResultSet generatedKeys = stmt.getGeneratedKeys();
 
-    if(generatedKeys.next()) {
+    if (generatedKeys.next()) {
       id = generatedKeys.getInt(1);
     }
 

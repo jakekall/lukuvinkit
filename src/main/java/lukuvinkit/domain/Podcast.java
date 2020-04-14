@@ -1,6 +1,7 @@
 package lukuvinkit.domain;
 
 public class Podcast extends Lukuvinkki {
+
   private String url;
 
   public Podcast(String otsikko, String url, String kuvaus) {

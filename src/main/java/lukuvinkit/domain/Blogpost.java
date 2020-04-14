@@ -1,6 +1,7 @@
 package lukuvinkit.domain;
 
 public class Blogpost extends Lukuvinkki {
+
   private String url;
 
   public Blogpost(String otsikko, String url) {

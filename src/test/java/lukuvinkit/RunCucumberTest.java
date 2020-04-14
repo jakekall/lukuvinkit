@@ -11,4 +11,6 @@ import org.junit.runner.RunWith;
     plugin = "pretty",
     features = "src/test/resources/lukuvinkit",
     snippets = SnippetType.CAMELCASE)
-public class RunCucumberTest {}
+public class RunCucumberTest {
+
+}

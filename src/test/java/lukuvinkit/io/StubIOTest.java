@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class StubIOTest {
+
   ArrayDeque<String> commands;
   StubIO io;
 
