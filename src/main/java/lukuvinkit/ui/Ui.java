@@ -1,6 +1,5 @@
 package lukuvinkit.ui;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +9,7 @@ import lukuvinkit.domain.Lukuvinkki;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
+import lukuvinkit.util.TagParser;
 
 public class Ui {
 
@@ -105,6 +105,12 @@ public class Ui {
     }
   }
 
+  public List<String> addTags() {
+    io.print("\nTägit (erottele pilkulla): ");
+    String tags = io.nextCommand();
+    return TagParser.stringToList(tags);
+  }
+
   public String addDescription() {
     return "";
   }
@@ -121,21 +127,25 @@ public class Ui {
       }
       if (typeToAdd.equals("Kirja")) {
         String writer = addWriter();
-        Kirja kirja = new Kirja(title, writer);
+        List<String> tags = addTags();
+        Kirja kirja = new Kirja(title, writer, tags);
         System.out.println("kirja: " + kirja);
         saveToDatabase(kirja);
         break;
       }
       if (typeToAdd.equals("Video")) {
         String url = addUrl();
-        Video video = new Video(title, url);
+        List<String> tags = addTags();
+        Video video = new Video(title, url, tags);
         saveToDatabase(video);
         break;
       }
       if (typeToAdd.equals("Blogpost")) {
         String url = addUrl();
-        Blogpost blog = new Blogpost(title, url);
+        List<String> tags = addTags();
+        Blogpost blog = new Blogpost(title, url, tags);
         saveToDatabase(blog);
+        break;
       }
       if (typeToAdd.equals("Podcast")) {
         // podcastin nimi pakollinen
@@ -155,9 +165,9 @@ public class Ui {
     List<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
     io.print("\nTallennetut lukuvinkit: ");
 
-    for (int i = 1; i < recommendations.size(); i++) {
+    for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
-      io.print(i + ".");
+      io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi() + "\n");
     }

@@ -1,16 +1,18 @@
 package lukuvinkit.domain;
 
+import java.util.List;
+
 public class Podcast extends Lukuvinkki {
 
   private String url;
 
-  public Podcast(String otsikko, String url, String kuvaus) {
-    super(LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus);
+  public Podcast(String otsikko, String url, String kuvaus, List<String> tags) {
+    super(LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus, tags);
     this.url = url;
   }
 
-  public Podcast(int id, String otsikko, String url, String kuvaus) {
-    super(id, LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus);
+  public Podcast(int id, String otsikko, String url, String kuvaus, List<String> tags) {
+    super(id, LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus, tags);
     this.url = url;
   }
 

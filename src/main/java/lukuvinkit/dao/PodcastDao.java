@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import lukuvinkit.Database;
 import lukuvinkit.domain.Podcast;
+import lukuvinkit.util.TagParser;
 
 public class PodcastDao implements Dao<Podcast, Integer> {
 
@@ -22,11 +23,12 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-        .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus) VALUES (?, ?, ?)");
+            .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus, tags) VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, podcast.getOtsikko());
     stmt.setString(2, podcast.getUrl());
     stmt.setString(3, podcast.getKuvaus());
+    stmt.setString(4, TagParser.listToString(podcast.getTags()));
 
     stmt.executeUpdate();
 
@@ -56,7 +58,16 @@ public class PodcastDao implements Dao<Podcast, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
+    Connection connection = db.getConnection();
 
+    PreparedStatement stmt = connection
+            .prepareStatement("DELETE FROM Podcast WHERE id = ?");
+
+    stmt.setInt(1, id);
+    stmt.executeUpdate();
+
+    stmt.close();
+    connection.close();
   }
 
   @Override
@@ -72,8 +83,9 @@ public class PodcastDao implements Dao<Podcast, Integer> {
       String otsikko = rs.getString("otsikko");
       String url = rs.getString("url");
       String kuvaus = rs.getString("kuvaus");
-
-      podcasts.add(new Podcast(id, otsikko, url, kuvaus));
+      List<String> tags = TagParser.stringToList(rs.getString("tags"));
+      
+      podcasts.add(new Podcast(id, otsikko, url, kuvaus, tags));
     }
 
     rs.close();

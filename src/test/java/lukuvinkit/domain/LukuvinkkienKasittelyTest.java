@@ -1,9 +1,11 @@
 package lukuvinkit.domain;
 
+import io.cucumber.java.After;
 import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import lukuvinkit.Database;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
@@ -41,9 +43,18 @@ public class LukuvinkkienKasittelyTest {
     lukuvinkkienKasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
+  @After
+  public void removeDatabase() {
+    File dbFile = new File("test.db");
+
+    if (dbFile.exists()) {
+      dbFile.delete();
+    }
+  }
+  
   @Test
   public void lukuvinkkienKasittelySavesKirjaLukuvinkkiOtsikko() throws SQLException {
-    Kirja kirja = new Kirja("Clean Code", "Robert Martin");
+    Kirja kirja = new Kirja("Clean Code", "Robert Martin", new ArrayList<>());
 
     lukuvinkkienKasittely.saveRecommendation(kirja);
 
@@ -53,7 +64,7 @@ public class LukuvinkkienKasittelyTest {
 
   @Test
   public void lukuvinkkienKasittelySavesKirjaLukuvinkkiKirjailija() throws SQLException {
-    Kirja kirja = new Kirja("Clean Code", "Robert Martin");
+    Kirja kirja = new Kirja("Clean Code", "Robert Martin", new ArrayList<>());
 
     lukuvinkkienKasittely.saveRecommendation(kirja);
 

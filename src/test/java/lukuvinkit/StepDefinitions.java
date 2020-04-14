@@ -19,7 +19,6 @@ import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.StubIO;
 import lukuvinkit.ui.Ui;
 
-
 public class StepDefinitions {
 
   Ui app;
@@ -36,6 +35,15 @@ public class StepDefinitions {
     PodcastDao podcastDao = new PodcastDao(testDatabase);
     VideoDao videoDao = new VideoDao(testDatabase);
     kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
+  }
+
+  @After
+  public void removeDatabase() {
+    File dbFile = new File("test.db");
+
+    if (dbFile.exists()) {
+      dbFile.delete();
+    }
   }
 
   @Given("command {string} is selected")
@@ -67,16 +75,6 @@ public class StepDefinitions {
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
-  }
-
-
-  @After
-  public void removeDatabase() {
-    File dbFile = new File("test.db");
-
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
   }
 
   @When("index {string} is entered")
