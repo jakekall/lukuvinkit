@@ -5,4 +5,5 @@ Feature: User can save a reading recommendation by title and url
     And command "2" is selected
     When title "Learn Java in 14 Minutes (seriously)" is entered
     And url "https://www.youtube.com/watch?v=RRubcjpTkks&" is entered
+    And tags "study" are entered
     Then system will respond with "Learn Java in 14 Minutes (seriously) lisätty"

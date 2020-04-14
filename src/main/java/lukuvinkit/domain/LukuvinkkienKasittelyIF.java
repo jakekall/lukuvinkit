@@ -7,7 +7,7 @@ public interface LukuvinkkienKasittelyIF {
 
   void saveRecommendation(Lukuvinkki l) throws SQLException;
 
-  void deleteRecommendation(Lukuvinkki l);
+  void deleteRecommendation(Lukuvinkki l) throws SQLException;
 
   void editRecommendation(Lukuvinkki l);
 

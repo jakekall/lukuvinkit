@@ -6,8 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import lukuvinkit.Database;
+import lukuvinkit.db.Database;
 import lukuvinkit.domain.Kirja;
+import lukuvinkit.util.TagParser;
 
 public class KirjaDao implements Dao<Kirja, Integer> {
 
@@ -23,11 +24,13 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-        .prepareStatement("INSERT INTO Kirja (otsikko, kirjailija, kuvaus) VALUES (?, ?, ?)");
+            .prepareStatement("INSERT INTO Kirja (otsikko, kirjailija, kuvaus, tags)"
+                    + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, kirja.getOtsikko());
     stmt.setString(2, kirja.getKirjailija());
     stmt.setString(3, kirja.getKuvaus());
+    stmt.setString(4, TagParser.listToString(kirja.getTags()));
 
     stmt.executeUpdate();
 
@@ -61,7 +64,16 @@ public class KirjaDao implements Dao<Kirja, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
+    Connection connection = db.getConnection();
 
+    PreparedStatement stmt = connection
+            .prepareStatement("DELETE FROM Kirja WHERE id = ?");
+
+    stmt.setInt(1, id);
+    stmt.executeUpdate();
+
+    stmt.close();
+    connection.close();
   }
 
   @Override
@@ -77,8 +89,9 @@ public class KirjaDao implements Dao<Kirja, Integer> {
       String otsikko = rs.getString("otsikko");
       String kirjailija = rs.getString("kirjailija");
       String kuvaus = rs.getString("kuvaus");
+      List<String> tags = TagParser.stringToList(rs.getString("tags"));
 
-      books.add(new Kirja(id, otsikko, kirjailija, kuvaus));
+      books.add(new Kirja(id, otsikko, kirjailija, kuvaus, tags));
     }
 
     rs.close();

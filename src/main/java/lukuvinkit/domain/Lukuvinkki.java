@@ -1,34 +1,44 @@
 package lukuvinkit.domain;
 
+import java.util.List;
+
 public class Lukuvinkki {
 
   private int id;
   private LukuvinkkiTyyppi tyyppi;
   private String otsikko;
   private String kuvaus;
+  private List<String> tags;
 
-  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko) {
+  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, List<String> tags) {
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus) {
+  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus,
+          List<String> tags) {
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.kuvaus = kuvaus;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko) {
+  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko,
+          List<String> tags) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus) {
+  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus,
+          List<String> tags) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.kuvaus = kuvaus;
+    this.tags = tags;
   }
 
   public int getId() {
@@ -63,14 +73,21 @@ public class Lukuvinkki {
     this.kuvaus = kuvaus;
   }
 
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
-    return "Lukuvinkki{" +
-        "id=" + id +
-        ", tyyppi=" + tyyppi +
-        ", otsikko='" + otsikko + '\'' +
-        ", kuvaus='" + kuvaus + '\'' +
-        '}';
+    return "Lukuvinkki{"
+            + "id=" + id
+            + ", tyyppi=" + tyyppi
+            + ", otsikko='" + otsikko + '\''
+            + ", kuvaus='" + kuvaus + '\''
+            + '}';
   }
 }
-

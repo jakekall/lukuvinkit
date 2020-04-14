@@ -8,28 +8,28 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
+import lukuvinkit.db.TestDatabase;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.StubIO;
 import lukuvinkit.ui.Ui;
-
 
 public class StepDefinitions {
 
   Ui app;
   LukuvinkkienKasittely kasittely;
   StubIO io;
+  TestDatabase testDatabase;
 
   @Before
-  public void setup() {
+  public void setup() throws SQLException {
     io = new StubIO(new ArrayDeque<>());
-    Database testDatabase = new Database("jdbc:sqlite:test.db");
+    testDatabase = new TestDatabase();
 
     BlogpostDao blogpostDao = new BlogpostDao(testDatabase);
     KirjaDao kirjaDao = new KirjaDao(testDatabase);
@@ -38,6 +38,11 @@ public class StepDefinitions {
     kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
+  @After
+  public void cleanup() throws SQLException {
+    testDatabase.close();
+  }
+  
   @Given("command {string} is selected")
   public void commandIsSelected(String command) {
     io.enterInput(command);
@@ -52,6 +57,11 @@ public class StepDefinitions {
   public void urlIsEntered(String url) {
     io.enterInput(url);
   }
+  
+  @When("tags {string} are entered")
+  public void tagsAreEntered(String tags) {
+    io.enterInput(tags);
+  }
 
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) throws SQLException {
@@ -61,22 +71,14 @@ public class StepDefinitions {
     assertTrue(io.getPrints().contains(message));
   }
 
-  @Given("user successfully saves new lukuvinkki with title {string} and url {string}")
-  public void userSuccessfullySavesNewLukuvinkki(String title, String url) {
+  @Given("user successfully saves new lukuvinkki with title {string}"
+          + " and url {string} and tags {string}")
+  public void userSuccessfullySavesNewLukuvinkki(String title, String url, String tags) {
     commandIsSelected("1");
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
-  }
-
-
-  @After
-  public void removeDatabase() {
-    File dbFile = new File("test.db");
-
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
+    tagsAreEntered(tags);
   }
 
   @When("index {string} is entered")

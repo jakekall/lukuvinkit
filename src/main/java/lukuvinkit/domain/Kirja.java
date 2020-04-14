@@ -1,26 +1,28 @@
 package lukuvinkit.domain;
 
+import java.util.List;
+
 public class Kirja extends Lukuvinkki {
 
   private String kirjailija;
 
-  public Kirja(String otsikko, String kirjailija) {
-    super(LukuvinkkiTyyppi.KIRJA, otsikko);
+  public Kirja(String otsikko, String kirjailija, List<String> tags) {
+    super(LukuvinkkiTyyppi.KIRJA, otsikko, tags);
     this.kirjailija = kirjailija;
   }
 
-  public Kirja(String otsikko, String kirjailija, String kuvaus) {
-    super(LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus);
+  public Kirja(String otsikko, String kirjailija, String kuvaus, List<String> tags) {
+    super(LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus, tags);
     this.kirjailija = kirjailija;
   }
 
-  public Kirja(int id, String otsikko, String kirjailija) {
-    super(id, LukuvinkkiTyyppi.KIRJA, otsikko);
+  public Kirja(int id, String otsikko, String kirjailija, List<String> tags) {
+    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, tags);
     this.kirjailija = kirjailija;
   }
 
-  public Kirja(int id, String otsikko, String kirjailija, String kuvaus) {
-    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus);
+  public Kirja(int id, String otsikko, String kirjailija, String kuvaus, List<String> tags) {
+    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus, tags);
     this.kirjailija = kirjailija;
   }
 
