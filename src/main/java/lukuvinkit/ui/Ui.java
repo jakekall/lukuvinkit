@@ -3,12 +3,9 @@ package lukuvinkit.ui;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import lukuvinkit.domain.Blogpost;
-import lukuvinkit.domain.Kirja;
-import lukuvinkit.domain.Lukuvinkki;
-import lukuvinkit.domain.LukuvinkkienKasittely;
-import lukuvinkit.domain.Podcast;
-import lukuvinkit.domain.Video;
+
+import com.sun.java.accessibility.util.EventID;
+import lukuvinkit.domain.*;
 import lukuvinkit.io.IO;
 import lukuvinkit.util.TagParser;
 
@@ -185,6 +182,14 @@ public class Ui {
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
+      if (l.getTyyppi().equals(LukuvinkkiTyyppi.VIDEO)) {
+        Video video = (Video) l;
+        io.print("Url: " + video.getUrl());
+      }
+      if (l.getTyyppi().equals(LukuvinkkiTyyppi.BLOGPOST)) {
+        Blogpost blog = (Blogpost) l;
+        io.print("Url: " + blog.getUrl());
+      }
       if (!l.getKuvaus().isEmpty()) {
         io.print("Kuvaus: " + l.getKuvaus());
       }
