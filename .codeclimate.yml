@@ -3,3 +3,5 @@ plugins:
     enabled: true
     config:
       file: "config/checkstyle/google_checks.xml"
+exclude_patterns:
+  - "src/main/java/lukuvinkit/ui/"
