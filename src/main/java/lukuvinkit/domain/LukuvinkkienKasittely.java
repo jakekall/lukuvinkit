@@ -16,7 +16,7 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   private VideoDao videoDao;
 
   public LukuvinkkienKasittely(BlogpostDao blogpostDao, KirjaDao kirjaDao,
-      PodcastDao podcastDao, VideoDao videoDao) {
+          PodcastDao podcastDao, VideoDao videoDao) {
     this.blogpostDao = blogpostDao;
     this.kirjaDao = kirjaDao;
     this.podcastDao = podcastDao;
@@ -28,7 +28,6 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
     if (l.getTyyppi() == LukuvinkkiTyyppi.BLOGPOST) {
       saveBlogpostRecommendation(l);
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.KIRJA) {
-      System.out.println("Saving...");
       saveBookRecommendation(l);
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.PODCAST) {
       savePodcastRecommendation(l);
@@ -38,9 +37,18 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   }
 
   @Override
-  public void deleteRecommendation(Lukuvinkki l) {
-    //list.remove(l);
+  public void deleteRecommendation(Lukuvinkki l) throws SQLException {
+    int id = l.getId();
 
+    if (l.getTyyppi() == LukuvinkkiTyyppi.BLOGPOST) {
+      blogpostDao.delete(id);
+    } else if (l.getTyyppi() == LukuvinkkiTyyppi.KIRJA) {
+      kirjaDao.delete(id);
+    } else if (l.getTyyppi() == LukuvinkkiTyyppi.PODCAST) {
+      podcastDao.delete(id);
+    } else if (l.getTyyppi() == LukuvinkkiTyyppi.VIDEO) {
+      videoDao.delete(id);
+    }
   }
 
   @Override

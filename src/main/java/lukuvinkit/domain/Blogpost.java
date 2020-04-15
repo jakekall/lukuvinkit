@@ -1,26 +1,28 @@
 package lukuvinkit.domain;
 
+import java.util.List;
+
 public class Blogpost extends Lukuvinkki {
 
   private String url;
 
-  public Blogpost(String otsikko, String url) {
-    super(LukuvinkkiTyyppi.BLOGPOST, otsikko);
+  public Blogpost(String otsikko, String url, List<String> tags) {
+    super(LukuvinkkiTyyppi.BLOGPOST, otsikko, tags);
     this.url = url;
   }
 
-  public Blogpost(String otsikko, String url, String kuvaus) {
-    super(LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus);
+  public Blogpost(String otsikko, String url, String kuvaus, List<String> tags) {
+    super(LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus, tags);
     this.url = url;
   }
 
-  public Blogpost(int id, String otsikko, String url) {
-    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko);
+  public Blogpost(int id, String otsikko, String url, List<String> tags) {
+    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, tags);
     this.url = url;
   }
 
-  public Blogpost(int id, String otsikko, String url, String kuvaus) {
-    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus);
+  public Blogpost(int id, String otsikko, String url, String kuvaus, List<String> tags) {
+    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus, tags);
     this.url = url;
   }
 

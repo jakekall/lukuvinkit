@@ -1,6 +1,5 @@
 package lukuvinkit.ui;
 
-
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +10,7 @@ import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.domain.Podcast;
 import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
+import lukuvinkit.util.TagParser;
 
 public class Ui {
 
@@ -106,6 +106,12 @@ public class Ui {
     }
   }
 
+  public List<String> addTags() {
+    io.print("\nTagit (erottele pilkulla): ");
+    String tags = io.nextCommand();
+    return TagParser.stringToList(tags);
+  }
+
   public String addDescription() {
     while (true) {
       io.print("\nKuvaus: ");
@@ -131,29 +137,32 @@ public class Ui {
       if (typeToAdd.equals("Kirja")) {
         String writer = addWriter();
         String description = addDescription();
-        Kirja kirja = new Kirja(title, writer, description);
-        System.out.println("kirja: " + kirja);
+        List<String> tags = addTags();
+        Kirja kirja = new Kirja(title, writer, description, tags);
         saveToDatabase(kirja);
         break;
       }
       if (typeToAdd.equals("Video")) {
         String url = addUrl();
         String description = addDescription();
-        Video video = new Video(title, url, description);
+        List<String> tags = addTags();
+        Video video = new Video(title, url, description, tags);
         saveToDatabase(video);
         break;
       }
       if (typeToAdd.equals("Blogpost")) {
         String url = addUrl();
         String description = addDescription();
-        Blogpost blog = new Blogpost(title, url, description);
+        List<String> tags = addTags();
+        Blogpost blog = new Blogpost(title, url, description, tags);
         saveToDatabase(blog);
         break;
       }
       if (typeToAdd.equals("Podcast")) {
         String url = addUrl();
         String description = addDescription();
-        Podcast podcast = new Podcast(title, url, description);
+        List<String> tags = addTags();
+        Podcast podcast = new Podcast(title, url, description, tags);
         saveToDatabase(podcast);
         break;
       }
@@ -171,12 +180,17 @@ public class Ui {
     List<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
     io.print("\nTallennetut lukuvinkit: ");
 
-    for (int i = 1; i < recommendations.size(); i++) {
+    for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
-      io.print(i + ".");
+      io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
-      io.print("Kuvaus: " + l.getKuvaus());
+      if (!l.getKuvaus().isBlank()) {
+        io.print("Kuvaus: " + l.getKuvaus());
+      }
+      if (!l.getTags().isEmpty()) {
+        io.print("Tagit: " + l.getTags());
+      }
       io.print("\n");
     }
   }

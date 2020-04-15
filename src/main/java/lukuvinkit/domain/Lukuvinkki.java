@@ -1,5 +1,6 @@
 package lukuvinkit.domain;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Lukuvinkki {
@@ -8,29 +9,37 @@ public class Lukuvinkki {
   private LukuvinkkiTyyppi tyyppi;
   private String otsikko;
   private String kuvaus;
+  private List<String> tags;
 
-  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko) {
+  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, List<String> tags) {
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus) {
+  public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus,
+          List<String> tags) {
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.kuvaus = kuvaus;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko) {
+  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko,
+          List<String> tags) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
+    this.tags = tags;
   }
 
-  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus) {
+  public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus,
+          List<String> tags) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.kuvaus = kuvaus;
+    this.tags = tags;
   }
 
   public int getId() {
@@ -65,14 +74,22 @@ public class Lukuvinkki {
     this.kuvaus = kuvaus;
   }
 
+  public List<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(List<String> tags) {
+    this.tags = tags;
+  }
+
   @Override
   public String toString() {
-    return "Lukuvinkki{" +
-        "id=" + id +
-        ", tyyppi=" + tyyppi +
-        ", otsikko='" + otsikko + '\'' +
-        ", kuvaus='" + kuvaus + '\'' +
-        '}';
+    return "Lukuvinkki{"
+            + "id=" + id
+            + ", tyyppi=" + tyyppi
+            + ", otsikko='" + otsikko + '\''
+            + ", kuvaus='" + kuvaus + '\''
+            + '}';
   }
 
   @Override
@@ -84,10 +101,10 @@ public class Lukuvinkki {
       return false;
     }
     Lukuvinkki that = (Lukuvinkki) o;
-    return id == that.id &&
-        tyyppi == that.tyyppi &&
-        Objects.equals(otsikko, that.otsikko) &&
-        Objects.equals(kuvaus, that.kuvaus);
+    return id == that.id
+            && tyyppi == that.tyyppi
+            && Objects.equals(otsikko, that.otsikko)
+            && Objects.equals(kuvaus, that.kuvaus);
   }
 
   @Override
@@ -95,4 +112,3 @@ public class Lukuvinkki {
     return Objects.hash(id, tyyppi, otsikko, kuvaus);
   }
 }
-

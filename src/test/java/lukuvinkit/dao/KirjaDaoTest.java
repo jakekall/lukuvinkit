@@ -3,33 +3,36 @@ package lukuvinkit.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
-import lukuvinkit.Database;
+import lukuvinkit.db.TestDatabase;
 import lukuvinkit.domain.Kirja;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class KirjaDaoTest {
 
-  private Database db;
+  private TestDatabase db;
   private KirjaDao kirjaDao;
 
   @Before
-  public void setup() {
-    File dbFile = new File("test.db");
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
-
-    db = new Database("jdbc:sqlite:test.db");
+  public void setup() throws SQLException {
+    db = new TestDatabase();
     kirjaDao = new KirjaDao(db);
+  }
+
+  @After
+  public void cleanup() throws SQLException {
+    db.close();
   }
 
   @Test
   public void savesBlogAndReturnsId() throws SQLException {
-    Kirja kirja = new Kirja("Test Kirja 1", "Kirjailija 1", "Ekan kirjan kuvaus");
+    Kirja kirja = new Kirja("Test Kirja 1", "Kirjailija 1",
+            "Ekan kirjan kuvaus", new ArrayList<>());
+
     int id = kirjaDao.create(kirja);
 
     assertEquals(1, id);
@@ -37,8 +40,11 @@ public class KirjaDaoTest {
 
   @Test
   public void savesTwoBlogsAndReturnsAll() throws SQLException {
-    Kirja kirja1 = new Kirja("Test Kirja 1", "Kirjailija 1", "Ekan kirjan kuvaus");
-    Kirja kirja2 = new Kirja("Test Kirja 2", "Kirjailija 2", "Tokan kirjan kuvaus");
+    Kirja kirja1 = new Kirja("Test Kirja 1", "Kirjailija 1",
+            "Ekan kirjan kuvaus", new ArrayList<>());
+    Kirja kirja2 = new Kirja("Test Kirja 2", "Kirjailija 2",
+            "Tokan kirjan kuvaus", new ArrayList<>());
+
     int kirja1Id = kirjaDao.create(kirja1);
     int kirja2Id = kirjaDao.create(kirja2);
 

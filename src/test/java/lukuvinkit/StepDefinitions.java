@@ -3,6 +3,7 @@ package lukuvinkit;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -13,27 +14,33 @@ import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
+import lukuvinkit.db.TestDatabase;
 import lukuvinkit.domain.LukuvinkkienKasittely;
 import lukuvinkit.io.StubIO;
 import lukuvinkit.ui.Ui;
-
 
 public class StepDefinitions {
 
   Ui app;
   LukuvinkkienKasittely kasittely;
   StubIO io;
+  TestDatabase testDatabase;
 
   @Before
-  public void setup() {
+  public void setup() throws SQLException {
     io = new StubIO(new ArrayDeque<>());
-    Database testDatabase = new Database("jdbc:sqlite:test.db");
+    testDatabase = new TestDatabase();
 
     BlogpostDao blogpostDao = new BlogpostDao(testDatabase);
     KirjaDao kirjaDao = new KirjaDao(testDatabase);
     PodcastDao podcastDao = new PodcastDao(testDatabase);
     VideoDao videoDao = new VideoDao(testDatabase);
     kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
+  }
+
+  @After
+  public void cleanup() throws SQLException {
+    testDatabase.close();
   }
 
   @Given("command {string} is selected")
@@ -51,6 +58,11 @@ public class StepDefinitions {
     io.enterInput(url);
   }
 
+  @When("tags {string} are entered")
+  public void tagsAreEntered(String tags) {
+    io.enterInput(tags);
+  }
+
   @When("description {string} is entered")
   public void descriptionIsEntered(String description) {
     io.enterInput(description);
@@ -63,12 +75,15 @@ public class StepDefinitions {
     assertTrue(io.getPrints().contains(message));
   }
 
-  @Given("user successfully saves new lukuvinkki with title {string} and url {string}")
-  public void userSuccessfullySavesNewLukuvinkki(String title, String url) {
+  @Given("user successfully saves new lukuvinkki with title {string}"
+          + " url {string} description {string} and tags {string}")
+  public void userSuccessfullySavesNewLukuvinkki(String title, String url, String description, String tags) {
     commandIsSelected("1");
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
+    descriptionIsEntered(description);
+    tagsAreEntered(tags);
   }
 
   @When("index {string} is entered")
@@ -83,11 +98,10 @@ public class StepDefinitions {
 
   @Then("system will respond with warning {string}")
   public void systemWillRespondWithWarning(String message) throws SQLException {
-//    io.enterInput("1");
-//    io.enterInput("n");
+    io.enterInput("1");
+    io.enterInput("n");
     app = new Ui(io, kasittely);
     app.startUi();
-    System.out.println(io.getPrints());
     assertTrue(io.getPrints().contains(message));
   }
 
@@ -105,14 +119,14 @@ public class StepDefinitions {
     assertTrue(kasittely.getAllRecommendations().isEmpty());
   }
 
-  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
-  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
-      String description) {
-    commandIsSelected("1");
-    commandIsSelected("2");
-    titleIsEntered(title);
-    urlIsEntered(url);
-    descriptionIsEntered(description);
-  }
+//  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
+//  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
+//          String description) {
+//    commandIsSelected("1");
+//    commandIsSelected("2");
+//    titleIsEntered(title);
+//    urlIsEntered(url);
+//    descriptionIsEntered(description);
+//  }
 
 }
