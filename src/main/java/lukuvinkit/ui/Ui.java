@@ -175,7 +175,9 @@ public class Ui {
       Lukuvinkki l = recommendations.get(i);
       io.print(i + ".");
       io.print("Otsikko: " + l.getOtsikko());
-      io.print("Tyyppi: " + l.getTyyppi() + "\n");
+      io.print("Tyyppi: " + l.getTyyppi());
+      io.print("Kuvaus: " + l.getKuvaus());
+      io.print("\n");
     }
   }
 

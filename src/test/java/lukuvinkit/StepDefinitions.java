@@ -3,12 +3,10 @@ package lukuvinkit;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import lukuvinkit.dao.BlogpostDao;
@@ -53,11 +51,15 @@ public class StepDefinitions {
     io.enterInput(url);
   }
 
+  @When("description {string} is entered")
+  public void descriptionIsEntered(String description) {
+    io.enterInput(description);
+  }
+
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
-    System.out.println(io.getPrints());
     assertTrue(io.getPrints().contains(message));
   }
 
@@ -67,16 +69,6 @@ public class StepDefinitions {
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
-  }
-
-
-  @After
-  public void removeDatabase() {
-    File dbFile = new File("test.db");
-
-    if (dbFile.exists()) {
-      dbFile.delete();
-    }
   }
 
   @When("index {string} is entered")
@@ -91,10 +83,11 @@ public class StepDefinitions {
 
   @Then("system will respond with warning {string}")
   public void systemWillRespondWithWarning(String message) throws SQLException {
-    io.enterInput("1");
-    io.enterInput("n");
+//    io.enterInput("1");
+//    io.enterInput("n");
     app = new Ui(io, kasittely);
     app.startUi();
+    System.out.println(io.getPrints());
     assertTrue(io.getPrints().contains(message));
   }
 
@@ -111,4 +104,15 @@ public class StepDefinitions {
     app.startUi();
     assertTrue(kasittely.getAllRecommendations().isEmpty());
   }
+
+  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
+  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
+      String description) {
+    commandIsSelected("1");
+    commandIsSelected("2");
+    titleIsEntered(title);
+    urlIsEntered(url);
+    descriptionIsEntered(description);
+  }
+
 }
