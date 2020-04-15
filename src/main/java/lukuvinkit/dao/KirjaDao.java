@@ -12,7 +12,7 @@ import lukuvinkit.util.TagParser;
 
 public class KirjaDao implements Dao<Kirja, Integer> {
 
-  private Database db;
+  private final Database db;
 
   public KirjaDao(Database db) {
     this.db = db;
@@ -20,7 +20,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
 
   @Override
   public int create(Kirja kirja) throws SQLException {
-    System.out.println("Saving...");
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
@@ -37,13 +36,9 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     int id = -1;
     ResultSet generatedKeys = stmt.getGeneratedKeys();
 
-    System.out.println(generatedKeys);
-
     if (generatedKeys.next()) {
       id = generatedKeys.getInt(1);
     }
-
-    System.out.println("id: " + id);
 
     generatedKeys.close();
     stmt.close();

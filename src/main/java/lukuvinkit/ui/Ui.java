@@ -7,6 +7,7 @@ import lukuvinkit.domain.Blogpost;
 import lukuvinkit.domain.Kirja;
 import lukuvinkit.domain.Lukuvinkki;
 import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.domain.Podcast;
 import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
 import lukuvinkit.util.TagParser;
@@ -112,7 +113,15 @@ public class Ui {
   }
 
   public String addDescription() {
-    return "";
+    while (true) {
+      io.print("\nKuvaus: ");
+      String description = io.nextCommand();
+      if (typeToAdd.equals("Podcast") && description.isEmpty()) {
+        io.print("kuvaus ei voi olla tyhjä!");
+      } else {
+        return description;
+      }
+    }
   }
 
   public void addRecommendation() throws SQLException {
@@ -127,29 +136,35 @@ public class Ui {
       }
       if (typeToAdd.equals("Kirja")) {
         String writer = addWriter();
+        String description = addDescription();
         List<String> tags = addTags();
-        Kirja kirja = new Kirja(title, writer, tags);
-        System.out.println("kirja: " + kirja);
+        Kirja kirja = new Kirja(title, writer, description, tags);
         saveToDatabase(kirja);
         break;
       }
       if (typeToAdd.equals("Video")) {
         String url = addUrl();
+        String description = addDescription();
         List<String> tags = addTags();
-        Video video = new Video(title, url, tags);
+        Video video = new Video(title, url, description, tags);
         saveToDatabase(video);
         break;
       }
       if (typeToAdd.equals("Blogpost")) {
         String url = addUrl();
+        String description = addDescription();
         List<String> tags = addTags();
-        Blogpost blog = new Blogpost(title, url, tags);
+        Blogpost blog = new Blogpost(title, url, description, tags);
         saveToDatabase(blog);
         break;
       }
       if (typeToAdd.equals("Podcast")) {
-        // podcastin nimi pakollinen
-        // pakollinen kuvaus
+        String url = addUrl();
+        String description = addDescription();
+        List<String> tags = addTags();
+        Podcast podcast = new Podcast(title, url, description, tags);
+        saveToDatabase(podcast);
+        break;
       }
     }
     mainOptions();
@@ -169,10 +184,14 @@ public class Ui {
       Lukuvinkki l = recommendations.get(i);
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
+      io.print("Tyyppi: " + l.getTyyppi());
+      if (!l.getKuvaus().isEmpty()) {
+        io.print("Kuvaus: " + l.getKuvaus());
+      }
       if (!l.getTags().isEmpty()) {
         io.print("Tagit: " + l.getTags());
       }
-      io.print("Tyyppi: " + l.getTyyppi() + "\n");
+      io.print("\n");
     }
   }
 

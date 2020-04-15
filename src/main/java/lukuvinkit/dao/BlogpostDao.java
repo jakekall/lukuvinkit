@@ -12,7 +12,7 @@ import lukuvinkit.util.TagParser;
 
 public class BlogpostDao implements Dao<Blogpost, Integer> {
 
-  private Database db;
+  private final Database db;
 
   public BlogpostDao(Database db) {
     this.db = db;

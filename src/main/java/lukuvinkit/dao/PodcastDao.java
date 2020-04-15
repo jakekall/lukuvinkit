@@ -12,7 +12,7 @@ import lukuvinkit.util.TagParser;
 
 public class PodcastDao implements Dao<Podcast, Integer> {
 
-  private Database db;
+  private final Database db;
 
   public PodcastDao(Database db) {
     this.db = db;
@@ -23,7 +23,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     Connection connection = db.getConnection();
 
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Kirja (otsikko, url, kuvaus, tags)"
+            .prepareStatement("INSERT INTO Podcast (otsikko, url, kuvaus, tags)"
                     + " VALUES (?, ?, ?, ?)");
 
     stmt.setString(1, podcast.getOtsikko());

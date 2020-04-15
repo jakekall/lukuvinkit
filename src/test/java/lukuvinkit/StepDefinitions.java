@@ -42,7 +42,7 @@ public class StepDefinitions {
   public void cleanup() throws SQLException {
     testDatabase.close();
   }
-  
+
   @Given("command {string} is selected")
   public void commandIsSelected(String command) {
     io.enterInput(command);
@@ -57,27 +57,32 @@ public class StepDefinitions {
   public void urlIsEntered(String url) {
     io.enterInput(url);
   }
-  
+
   @When("tags {string} are entered")
   public void tagsAreEntered(String tags) {
     io.enterInput(tags);
+  }
+
+  @When("description {string} is entered")
+  public void descriptionIsEntered(String description) {
+    io.enterInput(description);
   }
 
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) throws SQLException {
     app = new Ui(io, kasittely);
     app.startUi();
-    System.out.println(io.getPrints());
     assertTrue(io.getPrints().contains(message));
   }
 
   @Given("user successfully saves new lukuvinkki with title {string}"
-          + " and url {string} and tags {string}")
-  public void userSuccessfullySavesNewLukuvinkki(String title, String url, String tags) {
+          + " url {string} description {string} and tags {string}")
+  public void userSuccessfullySavesNewLukuvinkki(String title, String url, String description, String tags) {
     commandIsSelected("1");
     commandIsSelected("2");
     titleIsEntered(title);
     urlIsEntered(url);
+    descriptionIsEntered(description);
     tagsAreEntered(tags);
   }
 
@@ -113,4 +118,15 @@ public class StepDefinitions {
     app.startUi();
     assertTrue(kasittely.getAllRecommendations().isEmpty());
   }
+
+//  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
+//  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
+//          String description) {
+//    commandIsSelected("1");
+//    commandIsSelected("2");
+//    titleIsEntered(title);
+//    urlIsEntered(url);
+//    descriptionIsEntered(description);
+//  }
+
 }
