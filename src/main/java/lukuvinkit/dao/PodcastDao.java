@@ -11,7 +11,7 @@ import lukuvinkit.domain.Podcast;
 
 public class PodcastDao implements Dao<Podcast, Integer> {
 
-  private Database db;
+  private final Database db;
 
   public PodcastDao(Database db) {
     this.db = db;

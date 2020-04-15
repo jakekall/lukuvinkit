@@ -11,7 +11,7 @@ import lukuvinkit.domain.Video;
 
 public class VideoDao implements Dao<Video, Integer> {
 
-  private Database db;
+  private final Database db;
 
   public VideoDao(Database db) {
     this.db = db;
