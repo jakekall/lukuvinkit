@@ -179,16 +179,18 @@ public class Ui {
 
     for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
+      LukuvinkkiTyyppi tyyppi = l.getTyyppi();
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
-      if (l.getTyyppi().equals(LukuvinkkiTyyppi.VIDEO)) {
-        Video video = (Video) l;
-        io.print("Url: " + video.getUrl());
+      if (tyyppi.equals(LukuvinkkiTyyppi.VIDEO)) {
+        printVideoUrl(l);
       }
-      if (l.getTyyppi().equals(LukuvinkkiTyyppi.BLOGPOST)) {
-        Blogpost blog = (Blogpost) l;
-        io.print("Url: " + blog.getUrl());
+      if (tyyppi.equals(LukuvinkkiTyyppi.BLOGPOST)) {
+        printBlogpostUrl(l);
+      }
+      if (tyyppi.equals(LukuvinkkiTyyppi.KIRJA)) {
+        printAuthor(l);
       }
       if (!l.getKuvaus().isEmpty()) {
         io.print("Kuvaus: " + l.getKuvaus());
@@ -198,6 +200,21 @@ public class Ui {
       }
       io.print("\n");
     }
+  }
+
+  public void printAuthor(Lukuvinkki l) {
+    Kirja kirja = (Kirja) l;
+    io.print("Kirjailija: " + kirja.getKirjailija());
+  }
+
+  public void printVideoUrl(Lukuvinkki l) {
+    Video video = (Video) l;
+    io.print("Url: " + video.getUrl());
+  }
+
+  public void printBlogpostUrl(Lukuvinkki l) {
+    Blogpost blog = (Blogpost) l;
+    io.print("Url: " + blog.getUrl());
   }
 
   public void removeRecommendation() throws SQLException {
