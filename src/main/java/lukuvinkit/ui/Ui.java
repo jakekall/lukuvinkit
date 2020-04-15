@@ -185,7 +185,7 @@ public class Ui {
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
-      if (!l.getKuvaus().isBlank()) {
+      if (!l.getKuvaus().isEmpty()) {
         io.print("Kuvaus: " + l.getKuvaus());
       }
       if (!l.getTags().isEmpty()) {
