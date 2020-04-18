@@ -3,9 +3,13 @@ package lukuvinkit.ui;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sun.java.accessibility.util.EventID;
-import lukuvinkit.domain.*;
+import lukuvinkit.domain.Blogpost;
+import lukuvinkit.domain.Kirja;
+import lukuvinkit.domain.Lukuvinkki;
+import lukuvinkit.domain.LukuvinkkiTyyppi;
+import lukuvinkit.domain.LukuvinkkienKasittely;
+import lukuvinkit.domain.Podcast;
+import lukuvinkit.domain.Video;
 import lukuvinkit.io.IO;
 import lukuvinkit.util.TagParser;
 
@@ -179,10 +183,10 @@ public class Ui {
 
     for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
-      LukuvinkkiTyyppi tyyppi = l.getTyyppi();
       io.print((i + 1) + ".");
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
+      LukuvinkkiTyyppi tyyppi = l.getTyyppi();
       if (tyyppi.equals(LukuvinkkiTyyppi.VIDEO)) {
         printVideoUrl(l);
       }
