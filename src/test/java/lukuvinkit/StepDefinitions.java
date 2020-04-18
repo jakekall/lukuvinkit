@@ -77,7 +77,8 @@ public class StepDefinitions {
 
   @Given("user successfully saves new lukuvinkki with title {string}"
           + " url {string} description {string} and tags {string}")
-  public void userSuccessfullySavesNewLukuvinkki(String title, String url, String description, String tags) {
+  public void userSuccessfullySavesNewLukuvinkki(String title, String url,
+          String description, String tags) {
     commandIsSelected("1");
     commandIsSelected("2");
     titleIsEntered(title);
@@ -128,16 +129,5 @@ public class StepDefinitions {
     descriptionIsEntered("");
     tagsAreEntered("");
   }
-
-
-//  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
-//  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
-//          String description) {
-//    commandIsSelected("1");
-//    commandIsSelected("2");
-//    titleIsEntered(title);
-//    urlIsEntered(url);
-//    descriptionIsEntered(description);
-//  }
 
 }
