@@ -119,6 +119,17 @@ public class StepDefinitions {
     assertTrue(kasittely.getAllRecommendations().isEmpty());
   }
 
+  @Given("user successfully saves a new blogpost with title {string} and url {string}")
+  public void userSuccesfullySavesABlogpost(String title, String url) {
+    commandIsSelected("1");
+    commandIsSelected("3");
+    titleIsEntered(title);
+    urlIsEntered(url);
+    descriptionIsEntered("");
+    tagsAreEntered("");
+  }
+
+
 //  @Given("user successfully saves new lukuvinkki with title {string} url {string} and description {string}")
 //  public void userSuccessfullySavesNewLukuvinkkiWithTitleUrlAndDescription(String title, String url,
 //          String description) {
