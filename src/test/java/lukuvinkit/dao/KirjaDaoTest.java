@@ -20,7 +20,8 @@ public class KirjaDaoTest {
   @Before
   public void setup() throws SQLException {
     db = new TestDatabase();
-    kirjaDao = new KirjaDao(db);
+    LukuvinkkiDao lukuvinkkiDao = new LukuvinkkiDao(db);
+    kirjaDao = new KirjaDao(db, lukuvinkkiDao);
   }
 
   @After

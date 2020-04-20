@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
+import lukuvinkit.dao.LukuvinkkiDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
 import lukuvinkit.db.TestDatabase;
@@ -27,19 +28,20 @@ public class LukuvinkkienKasittelyTest {
   public void setup() throws SQLException {
     testDatabase = new TestDatabase();
 
-    blogpostDao = new BlogpostDao(testDatabase);
-    kirjaDao = new KirjaDao(testDatabase);
-    podcastDao = new PodcastDao(testDatabase);
-    videoDao = new VideoDao(testDatabase);
+    LukuvinkkiDao lukuvinkkiDao = new LukuvinkkiDao(testDatabase);
+    blogpostDao = new BlogpostDao(testDatabase, lukuvinkkiDao);
+    kirjaDao = new KirjaDao(testDatabase, lukuvinkkiDao);
+    podcastDao = new PodcastDao(testDatabase, lukuvinkkiDao);
+    videoDao = new VideoDao(testDatabase, lukuvinkkiDao);
 
     lukuvinkkienKasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
-  
+
   @After
   public void cleanup() throws SQLException {
     testDatabase.close();
   }
-  
+
   @Test
   public void lukuvinkkienKasittelySavesKirjaLukuvinkkiOtsikko() throws SQLException {
     Kirja kirja = new Kirja("Clean Code", "Robert Martin", new ArrayList<>());
@@ -47,7 +49,7 @@ public class LukuvinkkienKasittelyTest {
     lukuvinkkienKasittely.saveRecommendation(kirja);
 
     assertEquals(lukuvinkkienKasittely.getAllRecommendations().get(0).getOtsikko(),
-        kirja.getOtsikko());
+            kirja.getOtsikko());
   }
 
   @Test

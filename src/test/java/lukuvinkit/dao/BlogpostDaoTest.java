@@ -20,7 +20,8 @@ public class BlogpostDaoTest {
   @Before
   public void setup() throws SQLException {
     db = new TestDatabase();
-    blogpostDao = new BlogpostDao(db);
+    LukuvinkkiDao lukuvinkkiDao = new LukuvinkkiDao(db);
+    blogpostDao = new BlogpostDao(db, lukuvinkkiDao);
   }
 
   @After

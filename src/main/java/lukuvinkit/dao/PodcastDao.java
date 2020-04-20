@@ -13,37 +13,28 @@ import lukuvinkit.util.TagParser;
 public class PodcastDao implements Dao<Podcast, Integer> {
 
   private final Database db;
+  private LukuvinkkiDao lukuvinkkiDao;
 
-  public PodcastDao(Database db) {
+  public PodcastDao(Database db, LukuvinkkiDao lukuvinkkiDao) {
     this.db = db;
+    this.lukuvinkkiDao = lukuvinkkiDao;
   }
 
   @Override
   public int create(Podcast podcast) throws SQLException {
+    int id = lukuvinkkiDao.create(podcast);
+    
     Connection connection = db.getConnection();
-
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Podcast (otsikko, url, kuvaus, tags)"
-                    + " VALUES (?, ?, ?, ?)");
-
-    stmt.setString(1, podcast.getOtsikko());
+            .prepareStatement("INSERT INTO Podcast (lukuvinkki_id, url)"
+                    + " VALUES (?, ?)");
+    stmt.setInt(1, id);
     stmt.setString(2, podcast.getUrl());
-    stmt.setString(3, podcast.getKuvaus());
-    stmt.setString(4, TagParser.listToString(podcast.getTags()));
-
     stmt.executeUpdate();
-
-    int id = -1;
-    ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-    if (generatedKeys.next()) {
-      id = generatedKeys.getInt(1);
-    }
-
-    generatedKeys.close();
+    
     stmt.close();
     connection.close();
-
+    
     return id;
   }
 
@@ -59,16 +50,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
-    Connection connection = db.getConnection();
-
-    PreparedStatement stmt = connection
-            .prepareStatement("DELETE FROM Podcast WHERE id = ?");
-
-    stmt.setInt(1, id);
-    stmt.executeUpdate();
-
-    stmt.close();
-    connection.close();
+    lukuvinkkiDao.delete(id);
   }
 
   @Override

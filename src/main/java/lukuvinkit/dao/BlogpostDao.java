@@ -13,37 +13,28 @@ import lukuvinkit.util.TagParser;
 public class BlogpostDao implements Dao<Blogpost, Integer> {
 
   private final Database db;
+  private LukuvinkkiDao lukuvinkkiDao;
 
-  public BlogpostDao(Database db) {
+  public BlogpostDao(Database db, LukuvinkkiDao lukuvinkkiDao) {
     this.db = db;
+    this.lukuvinkkiDao = lukuvinkkiDao;
   }
 
   @Override
   public int create(Blogpost blogpost) throws SQLException {
+    int id = lukuvinkkiDao.create(blogpost);
+    
     Connection connection = db.getConnection();
-
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Blogpost (otsikko, url, kuvaus, tags)"
-                    + " VALUES (?, ?, ?, ?)");
-
-    stmt.setString(1, blogpost.getOtsikko());
+            .prepareStatement("INSERT INTO Blogpost (lukuvinkki_id, url)"
+                    + " VALUES (?, ?)");
+    stmt.setInt(1, id);
     stmt.setString(2, blogpost.getUrl());
-    stmt.setString(3, blogpost.getKuvaus());
-    stmt.setString(4, TagParser.listToString(blogpost.getTags()));
-
     stmt.executeUpdate();
-
-    int id = -1;
-    ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-    if (generatedKeys.next()) {
-      id = generatedKeys.getInt(1);
-    }
-
-    generatedKeys.close();
+    
     stmt.close();
     connection.close();
-
+    
     return id;
   }
 
@@ -59,16 +50,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
-    Connection connection = db.getConnection();
-
-    PreparedStatement stmt = connection
-            .prepareStatement("DELETE FROM Blogpost WHERE id = ?");
-
-    stmt.setInt(1, id);
-    stmt.executeUpdate();
-
-    stmt.close();
-    connection.close();
+    lukuvinkkiDao.delete(id);
   }
 
   @Override

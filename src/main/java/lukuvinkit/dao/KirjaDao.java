@@ -13,37 +13,28 @@ import lukuvinkit.util.TagParser;
 public class KirjaDao implements Dao<Kirja, Integer> {
 
   private final Database db;
-
-  public KirjaDao(Database db) {
+  private LukuvinkkiDao lukuvinkkiDao;
+  
+  public KirjaDao(Database db, LukuvinkkiDao lukuvinkkiDao) {
     this.db = db;
+    this.lukuvinkkiDao = lukuvinkkiDao;
   }
 
   @Override
   public int create(Kirja kirja) throws SQLException {
+    int id = lukuvinkkiDao.create(kirja);
+    
     Connection connection = db.getConnection();
-
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Kirja (otsikko, kirjailija, kuvaus, tags)"
-                    + " VALUES (?, ?, ?, ?)");
-
-    stmt.setString(1, kirja.getOtsikko());
+            .prepareStatement("INSERT INTO Kirja (lukuvinkki_id, kirjailija)"
+                    + " VALUES (?, ?)");
+    stmt.setInt(1, id);
     stmt.setString(2, kirja.getKirjailija());
-    stmt.setString(3, kirja.getKuvaus());
-    stmt.setString(4, TagParser.listToString(kirja.getTags()));
-
     stmt.executeUpdate();
-
-    int id = -1;
-    ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-    if (generatedKeys.next()) {
-      id = generatedKeys.getInt(1);
-    }
-
-    generatedKeys.close();
+    
     stmt.close();
     connection.close();
-
+    
     return id;
   }
 
@@ -59,16 +50,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
-    Connection connection = db.getConnection();
-
-    PreparedStatement stmt = connection
-            .prepareStatement("DELETE FROM Kirja WHERE id = ?");
-
-    stmt.setInt(1, id);
-    stmt.executeUpdate();
-
-    stmt.close();
-    connection.close();
+    lukuvinkkiDao.delete(id);
   }
 
   @Override

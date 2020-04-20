@@ -13,37 +13,28 @@ import lukuvinkit.util.TagParser;
 public class VideoDao implements Dao<Video, Integer> {
 
   private final Database db;
+  private LukuvinkkiDao lukuvinkkiDao;
 
-  public VideoDao(Database db) {
+  public VideoDao(Database db, LukuvinkkiDao lukuvinkkiDao) {
     this.db = db;
+    this.lukuvinkkiDao = lukuvinkkiDao;
   }
 
   @Override
   public int create(Video video) throws SQLException {
+    int id = lukuvinkkiDao.create(video);
+    
     Connection connection = db.getConnection();
-
     PreparedStatement stmt = connection
-            .prepareStatement("INSERT INTO Video (otsikko, url, kuvaus, tags)"
-                    + " VALUES (?, ?, ?, ?)");
-
-    stmt.setString(1, video.getOtsikko());
+            .prepareStatement("INSERT INTO Video (lukuvinkki_id, url)"
+                    + " VALUES (?, ?)");
+    stmt.setInt(1, id);
     stmt.setString(2, video.getUrl());
-    stmt.setString(3, video.getKuvaus());
-    stmt.setString(4, TagParser.listToString(video.getTags()));
-
     stmt.executeUpdate();
-
-    int id = -1;
-    ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-    if (generatedKeys.next()) {
-      id = generatedKeys.getInt(1);
-    }
-
-    generatedKeys.close();
+    
     stmt.close();
     connection.close();
-
+    
     return id;
   }
 
@@ -59,16 +50,7 @@ public class VideoDao implements Dao<Video, Integer> {
 
   @Override
   public void delete(Integer id) throws SQLException {
-    Connection connection = db.getConnection();
-
-    PreparedStatement stmt = connection
-            .prepareStatement("DELETE FROM Video WHERE id = ?");
-
-    stmt.setInt(1, id);
-    stmt.executeUpdate();
-
-    stmt.close();
-    connection.close();
+    lukuvinkkiDao.delete(id);
   }
 
   @Override
