@@ -64,7 +64,7 @@ public class VideoDao implements Dao<Video, Integer> {
 
     List<Video> videos = new ArrayList<>();
     int prevId = -1;
-    Video blogpost = new Video();
+    Video video = new Video();
 
     while (rs.next()) {
       int id = rs.getInt("id");
@@ -72,13 +72,13 @@ public class VideoDao implements Dao<Video, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        blogpost = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
-        videos.add(blogpost);
+        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
+        videos.add(video);
         prevId = id;
       }
       String tag = rs.getString("nimi");
       if (tag != null) {
-        blogpost.getTags().add(tag);
+        video.getTags().add(tag);
       }
     }
     rs.close();

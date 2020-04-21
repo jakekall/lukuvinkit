@@ -89,9 +89,9 @@ public class StepDefinitions {
     tagsAreEntered(tags);
   }
 
-  @When("index {string} is entered")
-  public void indexIsEntered(String index) {
-    io.enterInput(index);
+  @When("id {string} is entered")
+  public void idIsEntered(String id) {
+    io.enterInput(id);
   }
 
   @When("confirmation {string} is entered")
