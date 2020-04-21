@@ -19,7 +19,7 @@ public class LukuvinkkiDao implements Dao<Lukuvinkki, Integer> {
   @Override
   public int create(Lukuvinkki lukuvinkki) throws SQLException {
     int id = -1;
-    try ( Connection connection = db.getConnection()) {
+    try (Connection connection = db.getConnection()) {
       PreparedStatement stmt = connection
               .prepareStatement("INSERT INTO Lukuvinkki (otsikko, kuvaus)"
                       + " VALUES (?, ?)");
