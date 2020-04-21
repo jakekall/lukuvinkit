@@ -6,6 +6,10 @@ public class Blogpost extends Lukuvinkki {
 
   private String url;
 
+  public Blogpost() {
+    super(null, null, null);
+  }
+  
   public Blogpost(String otsikko, String url, List<String> tags) {
     super(LukuvinkkiTyyppi.BLOGPOST, otsikko, tags);
     this.url = url;

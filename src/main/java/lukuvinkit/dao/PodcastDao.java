@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lukuvinkit.db.Database;
 import lukuvinkit.domain.Podcast;
-import lukuvinkit.util.TagParser;
 
 public class PodcastDao implements Dao<Podcast, Integer> {
 
@@ -56,21 +55,32 @@ public class PodcastDao implements Dao<Podcast, Integer> {
   @Override
   public List<Podcast> list() throws SQLException {
     Connection connection = db.getConnection();
-    PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Podcast");
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
 
     List<Podcast> podcasts = new ArrayList<>();
+    int prevId = -1;
+    Podcast podcast = new Podcast();
 
     while (rs.next()) {
       int id = rs.getInt("id");
-      String otsikko = rs.getString("otsikko");
-      String url = rs.getString("url");
-      String kuvaus = rs.getString("kuvaus");
-      List<String> tags = TagParser.stringToList(rs.getString("tags"));
-
-      podcasts.add(new Podcast(id, otsikko, url, kuvaus, tags));
+      if (id != prevId) {
+        String otsikko = rs.getString("otsikko");
+        String url = rs.getString("url");
+        String kuvaus = rs.getString("kuvaus");
+        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>());
+        podcasts.add(podcast);
+        prevId = id;
+      }
+      String tag = rs.getString("nimi");
+      if (tag != null) {
+        podcast.getTags().add(tag);
+      }
     }
-
     rs.close();
     stmt.close();
     connection.close();

@@ -6,6 +6,10 @@ public class Video extends Lukuvinkki {
 
   private String url;
 
+  public Video() {
+    super(null, null, null);
+  }
+  
   public Video(String otsikko, String url, List<String> tags) {
     super(LukuvinkkiTyyppi.VIDEO, otsikko, tags);
     this.url = url;

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 import lukuvinkit.db.Database;
 import lukuvinkit.domain.Blogpost;
-import lukuvinkit.util.TagParser;
 
 public class BlogpostDao implements Dao<Blogpost, Integer> {
 
@@ -56,25 +55,36 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
   @Override
   public List<Blogpost> list() throws SQLException {
     Connection connection = db.getConnection();
-    PreparedStatement stmt = connection.prepareStatement("SELECT * FROM Blogpost");
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            + "INNER JOIN Blogpost ON blogpost.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
 
-    List<Blogpost> blogposts = new ArrayList<>();
+    List<Blogpost> blogs = new ArrayList<>();
+    int prevId = -1;
+    Blogpost blogpost = new Blogpost();
 
     while (rs.next()) {
       int id = rs.getInt("id");
-      String otsikko = rs.getString("otsikko");
-      String url = rs.getString("url");
-      String kuvaus = rs.getString("kuvaus");
-      List<String> tags = TagParser.stringToList(rs.getString("tags"));
-
-      blogposts.add(new Blogpost(id, otsikko, url, kuvaus, tags));
+      if (id != prevId) {
+        String otsikko = rs.getString("otsikko");
+        String url = rs.getString("url");
+        String kuvaus = rs.getString("kuvaus");
+        blogpost = new Blogpost(id, otsikko, url, kuvaus, new ArrayList<>());
+        blogs.add(blogpost);
+        prevId = id;
+      }
+      String tag = rs.getString("nimi");
+      if (tag != null) {
+        blogpost.getTags().add(tag);
+      }
     }
-
     rs.close();
     stmt.close();
     connection.close();
 
-    return blogposts;
+    return blogs;
   }
 }
