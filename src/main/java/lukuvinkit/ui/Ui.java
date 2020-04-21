@@ -238,7 +238,7 @@ public class Ui {
         Optional<Lukuvinkki> optional = recommendations.stream()
                 .filter(r -> r.getId() == id)
                 .findFirst();
-        if (optional.isEmpty()) {
+        if (!optional.isPresent()) {
           io.print("Lukuvinkkiä ei löytynyt id:llä " + id);
           continue;
         }
