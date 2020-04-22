@@ -87,4 +87,44 @@ public class PodcastDao implements Dao<Podcast, Integer> {
 
     return podcasts;
   }
+
+  @Override
+  public List<Podcast> listByTag(String tagFilter) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+                    + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
+                    + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
+                    + "LEFT JOIN Lukuvinkki ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE tagi.nimi = ?) "
+                    + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, tagFilter);
+    ResultSet rs = stmt.executeQuery();
+
+    List<Podcast> podcasts = new ArrayList<>();
+    int prevId = -1;
+    Podcast podcast = new Podcast();
+
+    while (rs.next()) {
+      int id = rs.getInt("id");
+      if (id != prevId) {
+        String otsikko = rs.getString("otsikko");
+        String url = rs.getString("url");
+        String kuvaus = rs.getString("kuvaus");
+        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>());
+        podcasts.add(podcast);
+        prevId = id;
+      }
+      String tag = rs.getString("nimi");
+      if (tag != null) {
+        podcast.getTags().add(tag);
+      }
+    }
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return podcasts;
+  }
 }

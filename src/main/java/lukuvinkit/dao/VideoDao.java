@@ -87,4 +87,44 @@ public class VideoDao implements Dao<Video, Integer> {
 
     return videos;
   }
+
+  @Override
+  public List<Video> listByTag(String tagFilter) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+                    + "INNER JOIN Video ON video.lukuvinkki_id = lukuvinkki.id "
+                    + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE Lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
+                    + "LEFT JOIN Lukuvinkki ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE tagi.nimi = ?) "
+                    + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, tagFilter);
+    ResultSet rs = stmt.executeQuery();
+
+    List<Video> videos = new ArrayList<>();
+    int prevId = -1;
+    Video video = new Video();
+
+    while (rs.next()) {
+      int id = rs.getInt("id");
+      if (id != prevId) {
+        String otsikko = rs.getString("otsikko");
+        String url = rs.getString("url");
+        String kuvaus = rs.getString("kuvaus");
+        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
+        videos.add(video);
+        prevId = id;
+      }
+      String tag = rs.getString("nimi");
+      if (tag != null) {
+        video.getTags().add(tag);
+      }
+    }
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return videos;
+  }
 }

@@ -47,7 +47,20 @@ public class Ui {
       chooseRecommendationType();
     }
     if (command.equals("2")) {
-      listRecommendations();
+      io.print("1. Listaa kaikki lukuvinkit");
+      io.print("2. Listaa tagin perusteella");
+      io.print("\nKomento: ");
+      command = io.nextCommand();
+
+      if (command.equals("1")) {
+        listAllRecommendations();
+      } else if (command.equals("2")) {
+        io.print("Haettava tagi: ");
+        io.print("\nTagi: ");
+        command = io.nextCommand();
+        listRecommendationsByTag(command);
+
+      }
     }
     if (command.equals("3")) {
       removeRecommendation();
@@ -178,10 +191,19 @@ public class Ui {
     io.print("\n");
   }
 
-  public void listRecommendations() throws SQLException {
+  public void listAllRecommendations() throws SQLException {
     List<Lukuvinkki> recommendations = kasittely.getAllRecommendations();
     io.print("\nTallennetut lukuvinkit: ");
+    formRecommendationList(recommendations);
+  }
 
+  public void listRecommendationsByTag(String tag) throws SQLException {
+    List<Lukuvinkki> recommendations = kasittely.getRecommendationsByTag(tag);
+    io.print("\nTallennetut lukuvinkit: ");
+    formRecommendationList(recommendations);
+  }
+
+  public void formRecommendationList(List<Lukuvinkki> recommendations) {
     for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
       io.print("Id: " + l.getId());
