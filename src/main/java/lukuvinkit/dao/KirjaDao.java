@@ -61,26 +61,8 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
-
     List<Kirja> books = new ArrayList<>();
-    int prevId = -1;
-    Kirja book = new Kirja();
-
-    while (rs.next()) {
-      int id = rs.getInt("id");
-      if (id != prevId) {
-        String otsikko = rs.getString("otsikko");
-        String kirjailija = rs.getString("kirjailija");
-        String kuvaus = rs.getString("kuvaus");
-        book = new Kirja(id, otsikko, kirjailija, kuvaus, new ArrayList<>());
-        books.add(book);
-        prevId = id;
-      }
-      String tag = rs.getString("nimi");
-      if (tag != null) {
-        book.getTags().add(tag);
-      }
-    }
+    createListFromResultSet(rs, books);
     rs.close();
     stmt.close();
     connection.close();
@@ -103,6 +85,14 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     stmt.setString(1, tagFilter);
     ResultSet rs = stmt.executeQuery();
     List<Kirja> books = new ArrayList<>();
+    createListFromResultSet(rs, books);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return books;
+  }
+  private void createListFromResultSet(ResultSet rs, List books) throws SQLException {
     int prevId = -1;
     Kirja book = new Kirja();
 
@@ -121,11 +111,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
         book.getTags().add(tag);
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
-
-    return books;
   }
 
 }

@@ -63,24 +63,7 @@ public class VideoDao implements Dao<Video, Integer> {
     ResultSet rs = stmt.executeQuery();
 
     List<Video> videos = new ArrayList<>();
-    int prevId = -1;
-    Video video = new Video();
-
-    while (rs.next()) {
-      int id = rs.getInt("id");
-      if (id != prevId) {
-        String otsikko = rs.getString("otsikko");
-        String url = rs.getString("url");
-        String kuvaus = rs.getString("kuvaus");
-        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
-        videos.add(video);
-        prevId = id;
-      }
-      String tag = rs.getString("nimi");
-      if (tag != null) {
-        video.getTags().add(tag);
-      }
-    }
+    createListFromResultSet(rs, videos);
     rs.close();
     stmt.close();
     connection.close();
@@ -101,8 +84,15 @@ public class VideoDao implements Dao<Video, Integer> {
                     + "ORDER BY lukuvinkki.id;");
     stmt.setString(1, tagFilter);
     ResultSet rs = stmt.executeQuery();
-
     List<Video> videos = new ArrayList<>();
+    createListFromResultSet(rs, videos);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return videos;
+  }
+  private void createListFromResultSet(ResultSet rs, List videos) throws SQLException {
     int prevId = -1;
     Video video = new Video();
 
@@ -121,10 +111,5 @@ public class VideoDao implements Dao<Video, Integer> {
         video.getTags().add(tag);
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
-
-    return videos;
   }
 }

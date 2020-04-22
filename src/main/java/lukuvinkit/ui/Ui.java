@@ -47,26 +47,27 @@ public class Ui {
       chooseRecommendationType();
     }
     if (command.equals("2")) {
-      io.print("1. Listaa kaikki lukuvinkit");
-      io.print("2. Listaa tagin perusteella");
-      io.print("\nKomento: ");
-      command = io.nextCommand();
-
-      if (command.equals("1")) {
-        listAllRecommendations();
-      } else if (command.equals("2")) {
-        io.print("Haettava tagi: ");
-        io.print("\nTagi: ");
-        command = io.nextCommand();
-        listRecommendationsByTag(command);
-
-      }
+      chooseHowToListRecommendations();
     }
     if (command.equals("3")) {
       removeRecommendation();
     }
     if (command.equals("4")) {
       shutDown();
+    }
+  }
+  public void chooseHowToListRecommendations() throws SQLException{
+    io.print("1. Listaa kaikki lukuvinkit");
+    io.print("2. Listaa tagin perusteella");
+    io.print("\nKomento: ");
+    String command = io.nextCommand();
+
+    if (command.equals("1")) {
+      listAllRecommendations();
+    } else if (command.equals("2")) {
+      io.print("Haettava tagi: ");
+      command = io.nextCommand();
+      listRecommendationsByTag(command);
     }
   }
 
