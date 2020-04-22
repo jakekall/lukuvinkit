@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayDeque;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
+import lukuvinkit.dao.LukuvinkkiDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
 import lukuvinkit.db.TestDatabase;
@@ -31,10 +32,11 @@ public class StepDefinitions {
     io = new StubIO(new ArrayDeque<>());
     testDatabase = new TestDatabase();
 
-    BlogpostDao blogpostDao = new BlogpostDao(testDatabase);
-    KirjaDao kirjaDao = new KirjaDao(testDatabase);
-    PodcastDao podcastDao = new PodcastDao(testDatabase);
-    VideoDao videoDao = new VideoDao(testDatabase);
+    LukuvinkkiDao lukuvinkkiDao = new LukuvinkkiDao(testDatabase);
+    BlogpostDao blogpostDao = new BlogpostDao(testDatabase, lukuvinkkiDao);
+    KirjaDao kirjaDao = new KirjaDao(testDatabase, lukuvinkkiDao);
+    PodcastDao podcastDao = new PodcastDao(testDatabase, lukuvinkkiDao);
+    VideoDao videoDao = new VideoDao(testDatabase, lukuvinkkiDao);
     kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
@@ -87,9 +89,9 @@ public class StepDefinitions {
     tagsAreEntered(tags);
   }
 
-  @When("index {string} is entered")
-  public void indexIsEntered(String index) {
-    io.enterInput(index);
+  @When("id {string} is entered")
+  public void idIsEntered(String id) {
+    io.enterInput(id);
   }
 
   @When("confirmation {string} is entered")

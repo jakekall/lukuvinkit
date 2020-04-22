@@ -6,6 +6,10 @@ public class Kirja extends Lukuvinkki {
 
   private String kirjailija;
 
+  public Kirja() {
+    super(null, null, null);
+  }
+  
   public Kirja(String otsikko, String kirjailija, List<String> tags) {
     super(LukuvinkkiTyyppi.KIRJA, otsikko, tags);
     this.kirjailija = kirjailija;

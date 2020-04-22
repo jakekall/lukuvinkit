@@ -46,17 +46,52 @@ public class TestDatabase extends Database {
     ArrayList<String> commandsList = new ArrayList<>();
 
     commandsList.add(
-            "CREATE TABLE Blogpost (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
-            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE IF NOT EXISTS Lukuvinkki ("
+            + "id integer PRIMARY KEY, "
+            + "otsikko varchar(255) NOT NULL, "
+            + "kuvaus varchar(255));"
+    );
+
     commandsList.add(
-            "CREATE TABLE Kirja (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
-            + " kirjailija varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE IF NOT EXISTS Blogpost ("
+            + "lukuvinkki_id integer PRIMARY KEY, "
+            + "url varchar(255) NOT NULL, "
+            + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
+            + "ON DELETE CASCADE);"
+    );
+
     commandsList.add(
-            "CREATE TABLE Podcast (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
-            + " url varchar(255) NOT NULL, kuvaus varchar(255) NOT NULL, tags varchar(255));");
+            "CREATE TABLE IF NOT EXISTS Kirja ("
+            + "lukuvinkki_id integer PRIMARY KEY, "
+            + "kirjailija varchar(255) NOT NULL, "
+            + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
+            + "ON DELETE CASCADE);"
+    );
+
     commandsList.add(
-            "CREATE TABLE Video (id integer PRIMARY KEY, otsikko varchar(255) NOT NULL,"
-            + " url varchar(255) NOT NULL, kuvaus varchar(255), tags varchar(255));");
+            "CREATE TABLE IF NOT EXISTS Podcast ("
+            + "lukuvinkki_id integer PRIMARY KEY, "
+            + "url varchar(255) NOT NULL, "
+            + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
+            + "ON DELETE CASCADE);"
+    );
+
+    commandsList.add(
+            "CREATE TABLE IF NOT EXISTS Video ("
+            + "lukuvinkki_id integer PRIMARY KEY, "
+            + "url varchar(255) NOT NULL, "
+            + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
+            + "ON DELETE CASCADE);"
+    );
+
+    commandsList.add(
+            "CREATE TABLE IF NOT EXISTS Tagi ("
+            + "id integer PRIMARY KEY, "
+            + "lukuvinkki_id integer, "
+            + "nimi varchar(255), "
+            + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
+            + "ON DELETE CASCADE)"
+    );
 
     return commandsList;
   }

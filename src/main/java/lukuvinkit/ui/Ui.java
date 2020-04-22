@@ -3,6 +3,7 @@ package lukuvinkit.ui;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lukuvinkit.domain.Blogpost;
 import lukuvinkit.domain.Kirja;
 import lukuvinkit.domain.Lukuvinkki;
@@ -183,7 +184,7 @@ public class Ui {
 
     for (int i = 0; i < recommendations.size(); i++) {
       Lukuvinkki l = recommendations.get(i);
-      io.print((i + 1) + ".");
+      io.print("Id: " + l.getId());
       io.print("Otsikko: " + l.getOtsikko());
       io.print("Tyyppi: " + l.getTyyppi());
       LukuvinkkiTyyppi tyyppi = l.getTyyppi();
@@ -230,22 +231,25 @@ public class Ui {
       return;
     }
     while (true) {
-      io.print("\nPoistettavan lukuvinkin indeksi: ");
+      io.print("\nPoistettavan lukuvinkin id: ");
       String input = io.nextCommand();
       try {
-        int index = Integer.parseInt(input);
-        if (index < 1 || index > count) {
-          io.print("Indeksin täytyy olla välillä 1-" + count);
+        int id = Integer.parseInt(input);
+        Optional<Lukuvinkki> optional = recommendations.stream()
+                .filter(r -> r.getId() == id)
+                .findFirst();
+        if (!optional.isPresent()) {
+          io.print("Lukuvinkkiä ei löytynyt id:llä " + id);
           continue;
         }
-        Lukuvinkki l = recommendations.get(index - 1);
+        Lukuvinkki l = optional.get();
         if (confirm("Haluatko varmasti poistaa lukuvinkin \"" + l.getOtsikko() + "\"?")) {
           kasittely.deleteRecommendation(l);
           io.print("Lukuvinkki \"" + l.getOtsikko() + "\" poistettu");
         }
         break;
       } catch (NumberFormatException e) {
-        io.print("Indeksin täytyy olla kokonaisluku");
+        io.print("Id:n täytyy olla kokonaisluku");
       }
     }
     io.print("\n");

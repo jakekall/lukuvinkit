@@ -20,7 +20,8 @@ public class VideoDaoTest {
   @Before
   public void setup() throws SQLException {
     db = new TestDatabase();
-    videoDao = new VideoDao(db);
+    LukuvinkkiDao lukuvinkkiDao = new LukuvinkkiDao(db);
+    videoDao = new VideoDao(db, lukuvinkkiDao);
   }
 
   @After
@@ -31,7 +32,7 @@ public class VideoDaoTest {
   @Test
   public void savesBlogAndReturnsId() throws SQLException {
     Video video = new Video("Test Video 1", "www.example.com",
-             "Videon kuvaus", new ArrayList<>());
+            "Videon kuvaus", new ArrayList<>());
 
     int id = videoDao.create(video);
 
