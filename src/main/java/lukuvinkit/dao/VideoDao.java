@@ -91,6 +91,7 @@ public class VideoDao implements Dao<Video, Integer> {
 
     return videos;
   }
+
   private void createListFromResultSet(ResultSet rs, List videos) throws SQLException {
     int prevId = -1;
     Video video = new Video();

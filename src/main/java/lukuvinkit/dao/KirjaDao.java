@@ -92,6 +92,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
 
     return books;
   }
+
   private void createListFromResultSet(ResultSet rs, List books) throws SQLException {
     int prevId = -1;
     Kirja book = new Kirja();

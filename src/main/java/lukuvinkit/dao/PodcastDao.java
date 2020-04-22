@@ -91,7 +91,8 @@ public class PodcastDao implements Dao<Podcast, Integer> {
 
     return podcasts;
   }
-  private void createListFromResultSet(ResultSet rs, List podcasts) throws SQLException{
+
+  private void createListFromResultSet(ResultSet rs, List podcasts) throws SQLException {
     int prevId = -1;
     Podcast podcast = new Podcast();
 

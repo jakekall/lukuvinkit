@@ -56,7 +56,8 @@ public class Ui {
       shutDown();
     }
   }
-  public void chooseHowToListRecommendations() throws SQLException{
+
+  public void chooseHowToListRecommendations() throws SQLException {
     io.print("1. Listaa kaikki lukuvinkit");
     io.print("2. Listaa tagin perusteella");
     io.print("\nKomento: ");

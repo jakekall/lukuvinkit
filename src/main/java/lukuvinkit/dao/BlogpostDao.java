@@ -92,7 +92,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
     return blogs;
   }
 
-  private void createListFromResultSet(ResultSet rs, List blogs) throws SQLException{
+  private void createListFromResultSet(ResultSet rs, List blogs) throws SQLException {
     int prevId = -1;
     Blogpost blogpost = new Blogpost();
 
