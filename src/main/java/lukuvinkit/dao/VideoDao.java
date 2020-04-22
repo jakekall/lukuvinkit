@@ -61,7 +61,6 @@ public class VideoDao implements Dao<Video, Integer> {
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
-
     List<Video> videos = new ArrayList<>();
     createListFromResultSet(rs, videos);
     rs.close();

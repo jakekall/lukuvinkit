@@ -205,28 +205,33 @@ public class Ui {
   }
 
   public void formRecommendationList(List<Lukuvinkki> recommendations) {
-    for (int i = 0; i < recommendations.size(); i++) {
-      Lukuvinkki l = recommendations.get(i);
-      io.print("Id: " + l.getId());
-      io.print("Otsikko: " + l.getOtsikko());
-      io.print("Tyyppi: " + l.getTyyppi());
-      LukuvinkkiTyyppi tyyppi = l.getTyyppi();
-      if (tyyppi.equals(LukuvinkkiTyyppi.VIDEO)) {
-        printVideoUrl(l);
-      }
-      if (tyyppi.equals(LukuvinkkiTyyppi.BLOGPOST)) {
-        printBlogpostUrl(l);
-      }
-      if (tyyppi.equals(LukuvinkkiTyyppi.KIRJA)) {
-        printAuthor(l);
-      }
-      if (!l.getKuvaus().isEmpty()) {
-        io.print("Kuvaus: " + l.getKuvaus());
-      }
-      if (!l.getTags().isEmpty()) {
-        io.print("Tagit: " + l.getTags());
-      }
+    if (recommendations.isEmpty()) {
+      io.print("Lukuvinkkejä ei löytynyt");
       io.print("\n");
+    } else {
+      for (int i = 0; i < recommendations.size(); i++) {
+        Lukuvinkki l = recommendations.get(i);
+        io.print("Id: " + l.getId());
+        io.print("Otsikko: " + l.getOtsikko());
+        io.print("Tyyppi: " + l.getTyyppi());
+        LukuvinkkiTyyppi tyyppi = l.getTyyppi();
+        if (tyyppi.equals(LukuvinkkiTyyppi.VIDEO)) {
+          printVideoUrl(l);
+        }
+        if (tyyppi.equals(LukuvinkkiTyyppi.BLOGPOST)) {
+          printBlogpostUrl(l);
+        }
+        if (tyyppi.equals(LukuvinkkiTyyppi.KIRJA)) {
+          printAuthor(l);
+        }
+        if (!l.getKuvaus().isEmpty()) {
+          io.print("Kuvaus: " + l.getKuvaus());
+        }
+        if (!l.getTags().isEmpty()) {
+          io.print("Tagit: " + l.getTags());
+        }
+        io.print("\n");
+      }
     }
   }
 
