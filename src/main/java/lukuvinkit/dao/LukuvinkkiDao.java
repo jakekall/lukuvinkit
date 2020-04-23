@@ -76,4 +76,9 @@ public class LukuvinkkiDao implements Dao<Lukuvinkki, Integer> {
   public List<Lukuvinkki> list() throws SQLException {
     return null;
   }
+
+  @Override
+  public List<Lukuvinkki> listByTag(String tag) throws SQLException {
+    return null;
+  }
 }

@@ -61,8 +61,38 @@ public class VideoDao implements Dao<Video, Integer> {
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
-
     List<Video> videos = new ArrayList<>();
+    createListFromResultSet(rs, videos);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return videos;
+  }
+
+  @Override
+  public List<Video> listByTag(String tagFilter) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+                    + "INNER JOIN Video ON video.lukuvinkki_id = lukuvinkki.id "
+                    + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE Lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
+                    + "LEFT JOIN Lukuvinkki ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE tagi.nimi = ?) "
+                    + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, tagFilter);
+    ResultSet rs = stmt.executeQuery();
+    List<Video> videos = new ArrayList<>();
+    createListFromResultSet(rs, videos);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return videos;
+  }
+
+  private void createListFromResultSet(ResultSet rs, List videos) throws SQLException {
     int prevId = -1;
     Video video = new Video();
 
@@ -81,10 +111,5 @@ public class VideoDao implements Dao<Video, Integer> {
         video.getTags().add(tag);
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
-
-    return videos;
   }
 }

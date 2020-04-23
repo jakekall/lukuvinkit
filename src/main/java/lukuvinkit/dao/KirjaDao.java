@@ -61,8 +61,39 @@ public class KirjaDao implements Dao<Kirja, Integer> {
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
-
     List<Kirja> books = new ArrayList<>();
+    createListFromResultSet(rs, books);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return books;
+  }
+
+  @Override
+  public List<Kirja> listByTag(String tagFilter) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id AS id, otsikko, kirjailija, kuvaus, nimi FROM Lukuvinkki "
+                    + "INNER JOIN Kirja ON kirja.lukuvinkki_id = lukuvinkki.id "
+                    + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE lukuvinkki.id IN ( "
+                    + "SELECT lukuvinkki.id FROM Tagi "
+                    + "LEFT JOIN Lukuvinkki ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE tagi.nimi = ?) "
+                    + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, tagFilter);
+    ResultSet rs = stmt.executeQuery();
+    List<Kirja> books = new ArrayList<>();
+    createListFromResultSet(rs, books);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return books;
+  }
+
+  private void createListFromResultSet(ResultSet rs, List books) throws SQLException {
     int prevId = -1;
     Kirja book = new Kirja();
 
@@ -81,11 +112,6 @@ public class KirjaDao implements Dao<Kirja, Integer> {
         book.getTags().add(tag);
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
-
-    return books;
   }
 
 }

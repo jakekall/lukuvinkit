@@ -70,6 +70,11 @@ public class StepDefinitions {
     io.enterInput(description);
   }
 
+  @When("searchable tag {string} is entered")
+  public void searchableTagIsEntered(String tag) {
+    io.enterInput(tag);
+  }
+
   @Then("system will respond with {string}")
   public void systemWillRespondWith(String message) throws SQLException {
     app = new Ui(io, kasittely);

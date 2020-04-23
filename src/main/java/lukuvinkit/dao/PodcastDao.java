@@ -61,8 +61,38 @@ public class PodcastDao implements Dao<Podcast, Integer> {
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
     ResultSet rs = stmt.executeQuery();
-
     List<Podcast> podcasts = new ArrayList<>();
+    createListFromResultSet(rs, podcasts);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return podcasts;
+  }
+
+  @Override
+  public List<Podcast> listByTag(String tagFilter) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+                    + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
+                    + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
+                    + "LEFT JOIN Lukuvinkki ON tagi.lukuvinkki_id = lukuvinkki.id "
+                    + "WHERE tagi.nimi = ?) "
+                    + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, tagFilter);
+    ResultSet rs = stmt.executeQuery();
+    List<Podcast> podcasts = new ArrayList<>();
+    createListFromResultSet(rs, podcasts);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return podcasts;
+  }
+
+  private void createListFromResultSet(ResultSet rs, List podcasts) throws SQLException {
     int prevId = -1;
     Podcast podcast = new Podcast();
 
@@ -81,10 +111,5 @@ public class PodcastDao implements Dao<Podcast, Integer> {
         podcast.getTags().add(tag);
       }
     }
-    rs.close();
-    stmt.close();
-    connection.close();
-
-    return podcasts;
   }
 }
