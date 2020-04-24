@@ -1,5 +1,10 @@
 Feature: User can search reading recommendations by typing a tag
 
+  Scenario: User can choose to search by tag
+    When command "2" is selected
+    And command "2" is selected
+    Then system will respond with "Haettava tagi: "
+
   Scenario: All recommendations that include the tag being searched are listed
     Given user successfully saves new lukuvinkki with title "Learn Java in 14 Minutes (seriously)" url "https://www.youtube.com/watch?v=RRubcjpTkks&" description "" and tags "study"
     And user successfully saves new lukuvinkki with title "5 Python Projects for Beginners" url "https://www.youtube.com/watch?v=1HHRWg--Ce4" description "" and tags "study"

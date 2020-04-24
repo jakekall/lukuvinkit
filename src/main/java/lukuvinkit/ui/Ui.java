@@ -61,16 +61,19 @@ public class Ui {
     io.print("1. Listaa kaikki lukuvinkit");
     io.print("2. Listaa tagin perusteella");
     io.print("3. Listaa tyypin perusteella");
+    io.print("4. Listaa otsikon perusteella");
     io.print("\nKomento: ");
     String command = io.nextCommand();
 
     if (command.equals("1")) {
       listAllRecommendations();
-    } else if (command.equals("2")) {
+    }
+    else if (command.equals("2")) {
       io.print("Haettava tagi: ");
       command = io.nextCommand();
       listRecommendationsByTag(command);
-    } else if (command.equals("3")) {
+    }
+    else if (command.equals("3")) {
       io.print("Valitse haettava tyyppi: ");
       io.print("1. Kirja");
       io.print("2. Video");
@@ -79,6 +82,9 @@ public class Ui {
       io.print("\nKomento: ");
       command = io.nextCommand();
       listRecommendationsByType(command);
+    }
+    else if (command.equals("4")) {
+      // otsikon perusteella listaaminen
     }
   }
 
@@ -217,13 +223,17 @@ public class Ui {
 
   public void listRecommendationsByType(String command) throws SQLException {
     List<Lukuvinkki> recommendations = new ArrayList<>();
+
     if (command.equals("1")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.KIRJA));
-    } else if (command.equals("2")) {
+    }
+    else if (command.equals("2")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.VIDEO));
-    } else if (command.equals("3")) {
+    }
+    else if (command.equals("3")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.BLOGPOST));
-    } else if (command.equals("4")) {
+    }
+    else if (command.equals("4")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.PODCAST));
     }
     io.print("\nTallennetut lukuvinkit: ");
