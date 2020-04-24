@@ -89,6 +89,22 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
     return recommendationsByTag;
   }
 
+  @Override
+  public ArrayList<Lukuvinkki> getRecommendationsByType(LukuvinkkiTyyppi tyyppi) throws SQLException {
+    ArrayList<Lukuvinkki> recommendationsByType = new ArrayList<>();
+
+    if (tyyppi == LukuvinkkiTyyppi.KIRJA) {
+      recommendationsByType.addAll(kirjaDao.list());
+    } else if (tyyppi == LukuvinkkiTyyppi.VIDEO) {
+      recommendationsByType.addAll(videoDao.list());
+    } else if (tyyppi == LukuvinkkiTyyppi.BLOGPOST) {
+      recommendationsByType.addAll(blogpostDao.list());
+    } else if (tyyppi == LukuvinkkiTyyppi.PODCAST) {
+      recommendationsByType.addAll(podcastDao.list());
+    }
+    return recommendationsByType;
+  }
+
   private void saveBlogpostRecommendation(Lukuvinkki l) throws SQLException {
     blogpostDao.create((Blogpost) l);
   }

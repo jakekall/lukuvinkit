@@ -14,4 +14,6 @@ public interface LukuvinkkienKasittelyIF {
   ArrayList<Lukuvinkki> getAllRecommendations() throws SQLException;
 
   ArrayList<Lukuvinkki> getRecommendationsByTag(String tag) throws SQLException;
+
+  ArrayList<Lukuvinkki> getRecommendationsByType(LukuvinkkiTyyppi tyyppi) throws SQLException;
 }
