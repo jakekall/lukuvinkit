@@ -21,10 +21,11 @@ public class LukuvinkkiDao implements Dao<Lukuvinkki, Integer> {
     int id = -1;
     try (Connection connection = db.getConnection()) {
       PreparedStatement stmt = connection
-              .prepareStatement("INSERT INTO Lukuvinkki (otsikko, kuvaus)"
-                      + " VALUES (?, ?)");
+              .prepareStatement("INSERT INTO Lukuvinkki (otsikko, kuvaus, luettu)"
+                      + " VALUES (?, ?, ?)");
       stmt.setString(1, lukuvinkki.getOtsikko());
       stmt.setString(2, lukuvinkki.getKuvaus());
+      stmt.setInt(3, 0);
       stmt.executeUpdate();
 
       ResultSet generatedKeys = stmt.getGeneratedKeys();

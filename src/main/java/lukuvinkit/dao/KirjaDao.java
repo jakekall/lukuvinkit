@@ -103,7 +103,8 @@ public class KirjaDao implements Dao<Kirja, Integer> {
         String otsikko = rs.getString("otsikko");
         String kirjailija = rs.getString("kirjailija");
         String kuvaus = rs.getString("kuvaus");
-        book = new Kirja(id, otsikko, kirjailija, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        book = new Kirja(id, otsikko, kirjailija, kuvaus, new ArrayList<>(), luettu);
         books.add(book);
         prevId = id;
       }

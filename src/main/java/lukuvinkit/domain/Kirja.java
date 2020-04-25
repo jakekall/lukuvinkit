@@ -20,13 +20,13 @@ public class Kirja extends Lukuvinkki {
     this.kirjailija = kirjailija;
   }
 
-  public Kirja(int id, String otsikko, String kirjailija, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, tags);
+  public Kirja(int id, String otsikko, String kirjailija, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, tags, isRead);
     this.kirjailija = kirjailija;
   }
 
-  public Kirja(int id, String otsikko, String kirjailija, String kuvaus, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus, tags);
+  public Kirja(int id, String otsikko, String kirjailija, String kuvaus, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.KIRJA, otsikko, kuvaus, tags, isRead);
     this.kirjailija = kirjailija;
   }
 

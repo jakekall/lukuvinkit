@@ -102,7 +102,8 @@ public class VideoDao implements Dao<Video, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         videos.add(video);
         prevId = id;
       }

@@ -20,13 +20,13 @@ public class Blogpost extends Lukuvinkki {
     this.url = url;
   }
 
-  public Blogpost(int id, String otsikko, String url, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, tags);
+  public Blogpost(int id, String otsikko, String url, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, tags, isRead);
     this.url = url;
   }
 
-  public Blogpost(int id, String otsikko, String url, String kuvaus, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus, tags);
+  public Blogpost(int id, String otsikko, String url, String kuvaus, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus, tags, isRead);
     this.url = url;
   }
 

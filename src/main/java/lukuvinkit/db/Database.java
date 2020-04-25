@@ -43,14 +43,15 @@ public class Database {
     ArrayList<String> commandsList = new ArrayList<>();
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Lukuvinkki ("
+        "CREATE TABLE IF NOT EXISTS Lukuvinkki ("
             + "id integer PRIMARY KEY, "
             + "otsikko varchar(255) NOT NULL, "
-            + "kuvaus varchar(255));"
+            + "kuvaus varchar(255), "
+            + "luettu integer NOT NULL);"
     );
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Blogpost ("
+        "CREATE TABLE IF NOT EXISTS Blogpost ("
             + "lukuvinkki_id integer PRIMARY KEY, "
             + "url varchar(255) NOT NULL, "
             + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
@@ -58,7 +59,7 @@ public class Database {
     );
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Kirja ("
+        "CREATE TABLE IF NOT EXISTS Kirja ("
             + "lukuvinkki_id integer PRIMARY KEY, "
             + "kirjailija varchar(255) NOT NULL, "
             + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
@@ -66,7 +67,7 @@ public class Database {
     );
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Podcast ("
+        "CREATE TABLE IF NOT EXISTS Podcast ("
             + "lukuvinkki_id integer PRIMARY KEY, "
             + "url varchar(255) NOT NULL, "
             + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
@@ -74,7 +75,7 @@ public class Database {
     );
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Video ("
+        "CREATE TABLE IF NOT EXISTS Video ("
             + "lukuvinkki_id integer PRIMARY KEY, "
             + "url varchar(255) NOT NULL, "
             + "FOREIGN KEY(lukuvinkki_id) REFERENCES Lukuvinkki(id) "
@@ -82,7 +83,7 @@ public class Database {
     );
 
     commandsList.add(
-            "CREATE TABLE IF NOT EXISTS Tagi ("
+        "CREATE TABLE IF NOT EXISTS Tagi ("
             + "id integer PRIMARY KEY, "
             + "lukuvinkki_id integer, "
             + "nimi varchar(255), "

@@ -92,7 +92,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     return podcasts;
   }
 
-  private void createListFromResultSet(ResultSet rs, List podcasts) throws SQLException {
+  private void createListFromResultSet(ResultSet rs, List<Podcast> podcasts) throws SQLException {
     int prevId = -1;
     Podcast podcast = new Podcast();
 
@@ -102,7 +102,8 @@ public class PodcastDao implements Dao<Podcast, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         podcasts.add(podcast);
         prevId = id;
       }

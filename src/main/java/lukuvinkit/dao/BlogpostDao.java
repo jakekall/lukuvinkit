@@ -102,7 +102,8 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        blogpost = new Blogpost(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        blogpost = new Blogpost(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         blogs.add(blogpost);
         prevId = id;
       }
