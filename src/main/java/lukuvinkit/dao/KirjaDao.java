@@ -56,7 +56,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
   public List<Kirja> list() throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, kirjailija, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, kirjailija, kuvaus, nimi, luettu FROM Lukuvinkki "
             + "INNER JOIN Kirja ON kirja.lukuvinkki_id = lukuvinkki.id "
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
@@ -103,7 +103,8 @@ public class KirjaDao implements Dao<Kirja, Integer> {
         String otsikko = rs.getString("otsikko");
         String kirjailija = rs.getString("kirjailija");
         String kuvaus = rs.getString("kuvaus");
-        book = new Kirja(id, otsikko, kirjailija, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        book = new Kirja(id, otsikko, kirjailija, kuvaus, new ArrayList<>(), luettu);
         books.add(book);
         prevId = id;
       }

@@ -15,8 +15,8 @@ public class Podcast extends Lukuvinkki {
     this.url = url;
   }
 
-  public Podcast(int id, String otsikko, String url, String kuvaus, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus, tags);
+  public Podcast(int id, String otsikko, String url, String kuvaus, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.PODCAST, otsikko, kuvaus, tags, isRead);
     this.url = url;
   }
 

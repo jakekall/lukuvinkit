@@ -56,7 +56,7 @@ public class VideoDao implements Dao<Video, Integer> {
   public List<Video> list() throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
             + "INNER JOIN Video ON video.lukuvinkki_id = lukuvinkki.id "
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
@@ -74,7 +74,7 @@ public class VideoDao implements Dao<Video, Integer> {
   public List<Video> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
                     + "INNER JOIN Video ON video.lukuvinkki_id = lukuvinkki.id "
                     + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
                     + "WHERE Lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
@@ -102,7 +102,8 @@ public class VideoDao implements Dao<Video, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        video = new Video(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         videos.add(video);
         prevId = id;
       }

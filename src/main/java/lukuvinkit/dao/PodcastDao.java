@@ -56,7 +56,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
   public List<Podcast> list() throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
             + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
@@ -74,7 +74,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
   public List<Podcast> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
                     + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
                     + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
                     + "WHERE lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
@@ -92,7 +92,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     return podcasts;
   }
 
-  private void createListFromResultSet(ResultSet rs, List podcasts) throws SQLException {
+  private void createListFromResultSet(ResultSet rs, List<Podcast> podcasts) throws SQLException {
     int prevId = -1;
     Podcast podcast = new Podcast();
 
@@ -102,7 +102,8 @@ public class PodcastDao implements Dao<Podcast, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        podcast = new Podcast(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         podcasts.add(podcast);
         prevId = id;
       }

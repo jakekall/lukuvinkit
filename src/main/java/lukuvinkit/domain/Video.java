@@ -20,13 +20,13 @@ public class Video extends Lukuvinkki {
     this.url = url;
   }
 
-  public Video(int id, String otsikko, String url, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.VIDEO, otsikko, tags);
+  public Video(int id, String otsikko, String url, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.VIDEO, otsikko, tags, isRead);
     this.url = url;
   }
 
-  public Video(int id, String otsikko, String url, String kuvaus, List<String> tags) {
-    super(id, LukuvinkkiTyyppi.VIDEO, otsikko, kuvaus, tags);
+  public Video(int id, String otsikko, String url, String kuvaus, List<String> tags, boolean isRead) {
+    super(id, LukuvinkkiTyyppi.VIDEO, otsikko, kuvaus, tags, isRead);
     this.url = url;
   }
 

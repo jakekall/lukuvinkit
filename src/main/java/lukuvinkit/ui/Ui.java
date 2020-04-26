@@ -38,8 +38,9 @@ public class Ui {
     io.print("Komennot: ");
     io.print("1. Lisää lukuvinkki");
     io.print("2. Listaa lukuvinkit");
-    io.print("3. Poista lukuvinkki");
-    io.print("4. Sulje ohjelma");
+    io.print("3. Merkitse lukuvinkki luetuksi");
+    io.print("4. Poista lukuvinkki");
+    io.print("5. Sulje ohjelma");
     io.print("\nKomento: ");
 
     String command = io.nextCommand();
@@ -50,11 +51,21 @@ public class Ui {
       chooseHowToListRecommendations();
     }
     if (command.equals("3")) {
-      removeRecommendation();
+      markAsRead();
     }
     if (command.equals("4")) {
+      removeRecommendation();
+    }
+    if (command.equals("5")) {
       shutDown();
     }
+  }
+
+  public void markAsRead() throws SQLException {
+    io.print("Anna id: ");
+    String id = io.nextCommand();
+
+    kasittely.markAsRead(Integer.parseInt(id));
   }
 
   public void chooseHowToListRecommendations() throws SQLException {
@@ -266,6 +277,7 @@ public class Ui {
         if (!l.getTags().isEmpty()) {
           io.print("Tagit: " + l.getTags());
         }
+        io.print("Luettu: " + (l.isRead() ? "Kyllä" : "Ei"));
         io.print("\n");
       }
     }

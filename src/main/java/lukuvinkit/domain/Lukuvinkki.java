@@ -10,6 +10,7 @@ public class Lukuvinkki {
   private String otsikko;
   private String kuvaus;
   private List<String> tags;
+  private boolean isRead;
 
   public Lukuvinkki(LukuvinkkiTyyppi tyyppi, String otsikko, List<String> tags) {
     this.tyyppi = tyyppi;
@@ -26,20 +27,22 @@ public class Lukuvinkki {
   }
 
   public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko,
-          List<String> tags) {
+          List<String> tags, boolean isRead) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.tags = tags;
+    this.isRead = isRead;
   }
 
   public Lukuvinkki(int id, LukuvinkkiTyyppi tyyppi, String otsikko, String kuvaus,
-          List<String> tags) {
+          List<String> tags, boolean isRead) {
     this.id = id;
     this.tyyppi = tyyppi;
     this.otsikko = otsikko;
     this.kuvaus = kuvaus;
     this.tags = tags;
+    this.isRead = isRead;
   }
 
   public int getId() {
@@ -80,6 +83,14 @@ public class Lukuvinkki {
 
   public void setTags(List<String> tags) {
     this.tags = tags;
+  }
+
+  public boolean isRead() {
+    return isRead;
+  }
+
+  public void setRead() {
+    isRead = true;
   }
 
   @Override

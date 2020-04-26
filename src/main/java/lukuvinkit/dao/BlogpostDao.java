@@ -22,6 +22,8 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
   @Override
   public int create(Blogpost blogpost) throws SQLException {
     int id = lukuvinkkiDao.create(blogpost);
+
+    System.out.println(blogpost.getUrl());
     
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection
@@ -29,6 +31,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
                     + " VALUES (?, ?)");
     stmt.setInt(1, id);
     stmt.setString(2, blogpost.getUrl());
+    System.out.println("id: " + id + ", url: " + blogpost.getUrl());
     stmt.executeUpdate();
     
     stmt.close();
@@ -56,7 +59,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
   public List<Blogpost> list() throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
             + "INNER JOIN Blogpost ON blogpost.lukuvinkki_id = lukuvinkki.id "
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
@@ -74,7 +77,7 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
   public List<Blogpost> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
                     + "INNER JOIN Blogpost ON blogpost.lukuvinkki_id = lukuvinkki.id "
                     + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
                     + "WHERE lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "
@@ -102,7 +105,8 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
         String otsikko = rs.getString("otsikko");
         String url = rs.getString("url");
         String kuvaus = rs.getString("kuvaus");
-        blogpost = new Blogpost(id, otsikko, url, kuvaus, new ArrayList<>());
+        boolean luettu = rs.getInt("luettu") == 1;
+        blogpost = new Blogpost(id, otsikko, url, kuvaus, new ArrayList<>(), luettu);
         blogs.add(blogpost);
         prevId = id;
       }

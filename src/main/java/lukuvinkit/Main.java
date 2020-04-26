@@ -27,7 +27,7 @@ public class Main {
     Scanner scanner = new Scanner(System.in);
 
     Ui ui = new Ui(new KonsoliIO(scanner),
-        new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao));
+        new LukuvinkkienKasittely(lukuvinkkiDao, blogpostDao, kirjaDao, podcastDao, videoDao));
 
     ui.startUi();
   }

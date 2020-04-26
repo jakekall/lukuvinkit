@@ -30,7 +30,7 @@ public class StubIO implements IO {
   @Override
   public String nextCommand() {
     if (inputLines.isEmpty()) {
-      return "4";
+      return "5";
     }
     return inputLines.pollFirst();
   }
