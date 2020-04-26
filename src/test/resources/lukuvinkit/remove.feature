@@ -1,5 +1,12 @@
 Feature: User can remove recommendation by id
 
+  Scenario: id used in removal is listed with other recommendation info
+    Given user successfully saves new lukuvinkki with title "Learn Java in 14 Minutes (seriously)" url "https://www.youtube.com/watch?v=RRubcjpTkks&" description "Where were you 2 years ago?" and tags "study"
+    When command "2" is selected
+    And command "1" is selected
+    Then system will respond with "Id: 1"
+    And system will respond with "Otsikko: Learn Java in 14 Minutes (seriously)"
+
   Scenario: removal is successful with valid id and confirmation
     Given user successfully saves new lukuvinkki with title "Learn Java in 14 Minutes (seriously)" url "https://www.youtube.com/watch?v=RRubcjpTkks&" description "Where were you 2 years ago?" and tags "study"
     When command "4" is selected
