@@ -34,7 +34,7 @@ public class LukuvinkkienKasittelyTest {
     podcastDao = new PodcastDao(testDatabase, lukuvinkkiDao);
     videoDao = new VideoDao(testDatabase, lukuvinkkiDao);
 
-    lukuvinkkienKasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
+    lukuvinkkienKasittely = new LukuvinkkienKasittely(lukuvinkkiDao, blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
   @After

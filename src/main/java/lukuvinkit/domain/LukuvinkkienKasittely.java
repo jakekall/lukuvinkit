@@ -5,18 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import lukuvinkit.dao.BlogpostDao;
 import lukuvinkit.dao.KirjaDao;
+import lukuvinkit.dao.LukuvinkkiDao;
 import lukuvinkit.dao.PodcastDao;
 import lukuvinkit.dao.VideoDao;
 
 public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
 
+  private LukuvinkkiDao lukuvinkkiDao;
   private BlogpostDao blogpostDao;
   private KirjaDao kirjaDao;
   private PodcastDao podcastDao;
   private VideoDao videoDao;
 
-  public LukuvinkkienKasittely(BlogpostDao blogpostDao, KirjaDao kirjaDao,
+  public LukuvinkkienKasittely(LukuvinkkiDao lukuvinkkiDao, BlogpostDao blogpostDao, KirjaDao kirjaDao,
           PodcastDao podcastDao, VideoDao videoDao) {
+    this.lukuvinkkiDao = lukuvinkkiDao;
     this.blogpostDao = blogpostDao;
     this.kirjaDao = kirjaDao;
     this.podcastDao = podcastDao;
@@ -34,6 +37,10 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
     } else if (l.getTyyppi() == LukuvinkkiTyyppi.VIDEO) {
       saveVideRecommendation(l);
     }
+  }
+
+  public void markAsRead(Integer id) throws SQLException {
+    lukuvinkkiDao.markAsRead(id);
   }
 
   @Override

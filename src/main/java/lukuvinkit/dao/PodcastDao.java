@@ -56,7 +56,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
   public List<Podcast> list() throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
             + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
             + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
             + "ORDER BY lukuvinkki.id;");
@@ -74,7 +74,7 @@ public class PodcastDao implements Dao<Podcast, Integer> {
   public List<Podcast> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
                     + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
                     + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
                     + "WHERE lukuvinkki.id IN (SELECT lukuvinkki.id FROM Tagi "

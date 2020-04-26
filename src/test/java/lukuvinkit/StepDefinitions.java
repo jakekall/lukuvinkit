@@ -37,7 +37,7 @@ public class StepDefinitions {
     KirjaDao kirjaDao = new KirjaDao(testDatabase, lukuvinkkiDao);
     PodcastDao podcastDao = new PodcastDao(testDatabase, lukuvinkkiDao);
     VideoDao videoDao = new VideoDao(testDatabase, lukuvinkkiDao);
-    kasittely = new LukuvinkkienKasittely(blogpostDao, kirjaDao, podcastDao, videoDao);
+    kasittely = new LukuvinkkienKasittely(lukuvinkkiDao, blogpostDao, kirjaDao, podcastDao, videoDao);
   }
 
   @After

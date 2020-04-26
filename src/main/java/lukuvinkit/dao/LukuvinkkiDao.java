@@ -82,4 +82,19 @@ public class LukuvinkkiDao implements Dao<Lukuvinkki, Integer> {
   public List<Lukuvinkki> listByTag(String tag) throws SQLException {
     return null;
   }
+
+  public void markAsRead(Integer id) throws SQLException {
+    Connection connection = db.getConnection();
+
+    PreparedStatement stmt = connection
+        .prepareStatement("UPDATE Lukuvinkki SET luettu = ? WHERE id = ?");
+    stmt.setInt(1, 1);
+    stmt.setInt(2, id);
+
+    stmt.executeUpdate();
+    stmt.close();
+
+    connection.close();
+  }
+
 }
