@@ -74,7 +74,7 @@ public class KirjaDao implements Dao<Kirja, Integer> {
   public List<Kirja> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
     PreparedStatement stmt = connection.prepareStatement(
-            "SELECT lukuvinkki.id AS id, otsikko, kirjailija, kuvaus, nimi FROM Lukuvinkki "
+            "SELECT lukuvinkki.id AS id, otsikko, kirjailija, kuvaus, nimi, luettu FROM Lukuvinkki "
                     + "INNER JOIN Kirja ON kirja.lukuvinkki_id = lukuvinkki.id "
                     + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
                     + "WHERE lukuvinkki.id IN ( "
