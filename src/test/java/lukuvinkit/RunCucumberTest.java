@@ -10,7 +10,8 @@ import org.junit.runner.RunWith;
     strict = true,
     plugin = "pretty",
     features = "src/test/resources/lukuvinkit",
-    snippets = SnippetType.CAMELCASE)
+    snippets = SnippetType.CAMELCASE,
+    tags = {"@problem"})
 public class RunCucumberTest {
 
 }

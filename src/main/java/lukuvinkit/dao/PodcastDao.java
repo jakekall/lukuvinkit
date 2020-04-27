@@ -70,6 +70,25 @@ public class PodcastDao implements Dao<Podcast, Integer> {
     return podcasts;
   }
 
+  public List<Podcast> listByTitle(String title) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+        "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
+            + "INNER JOIN Podcast ON podcast.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "WHERE otsikko LIKE ? "
+            + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, "%" + title + "%");
+    ResultSet rs = stmt.executeQuery();
+    List<Podcast> podcasts = new ArrayList<>();
+    createListFromResultSet(rs, podcasts);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return podcasts;
+  }
+
   @Override
   public List<Podcast> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
