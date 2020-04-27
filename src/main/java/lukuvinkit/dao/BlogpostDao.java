@@ -73,6 +73,25 @@ public class BlogpostDao implements Dao<Blogpost, Integer> {
     return blogs;
   }
 
+  public List<Blogpost> listByTitle(String title) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+        "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
+            + "INNER JOIN Blogpost ON blogpost.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "WHERE otsikko LIKE ? "
+            + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, "%" + title + "%");
+    ResultSet rs = stmt.executeQuery();
+    List<Blogpost> blogs = new ArrayList<>();
+    createListFromResultSet(rs, blogs);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return blogs;
+  }
+
   @Override
   public List<Blogpost> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();

@@ -70,6 +70,25 @@ public class VideoDao implements Dao<Video, Integer> {
     return videos;
   }
 
+  public List<Video> listByTitle(String title) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+        "SELECT lukuvinkki.id as id, otsikko, url, kuvaus, nimi, luettu FROM Lukuvinkki "
+            + "INNER JOIN Video ON video.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "WHERE otsikko LIKE ? "
+            + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, "%" + title + "%");
+    ResultSet rs = stmt.executeQuery();
+    List<Video> videos = new ArrayList<>();
+    createListFromResultSet(rs, videos);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return videos;
+  }
+
   @Override
   public List<Video> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
