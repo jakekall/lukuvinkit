@@ -25,7 +25,8 @@ public class Blogpost extends Lukuvinkki {
     this.url = url;
   }
 
-  public Blogpost(int id, String otsikko, String url, String kuvaus, List<String> tags, boolean isRead) {
+  public Blogpost(int id, String otsikko, String url, String kuvaus,
+          List<String> tags, boolean isRead) {
     super(id, LukuvinkkiTyyppi.BLOGPOST, otsikko, kuvaus, tags, isRead);
     this.url = url;
   }

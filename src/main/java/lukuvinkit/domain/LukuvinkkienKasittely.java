@@ -17,8 +17,8 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   private PodcastDao podcastDao;
   private VideoDao videoDao;
 
-  public LukuvinkkienKasittely(LukuvinkkiDao lukuvinkkiDao, BlogpostDao blogpostDao, KirjaDao kirjaDao,
-          PodcastDao podcastDao, VideoDao videoDao) {
+  public LukuvinkkienKasittely(LukuvinkkiDao lukuvinkkiDao, BlogpostDao blogpostDao,
+          KirjaDao kirjaDao, PodcastDao podcastDao, VideoDao videoDao) {
     this.lukuvinkkiDao = lukuvinkkiDao;
     this.blogpostDao = blogpostDao;
     this.kirjaDao = kirjaDao;
@@ -113,7 +113,8 @@ public class LukuvinkkienKasittely implements LukuvinkkienKasittelyIF {
   }
 
   @Override
-  public ArrayList<Lukuvinkki> getRecommendationsByType(LukuvinkkiTyyppi tyyppi) throws SQLException {
+  public ArrayList<Lukuvinkki> getRecommendationsByType(LukuvinkkiTyyppi tyyppi)
+          throws SQLException {
     ArrayList<Lukuvinkki> recommendationsByType = new ArrayList<>();
 
     if (tyyppi == LukuvinkkiTyyppi.KIRJA) {

@@ -25,7 +25,8 @@ public class Video extends Lukuvinkki {
     this.url = url;
   }
 
-  public Video(int id, String otsikko, String url, String kuvaus, List<String> tags, boolean isRead) {
+  public Video(int id, String otsikko, String url, String kuvaus,
+          List<String> tags, boolean isRead) {
     super(id, LukuvinkkiTyyppi.VIDEO, otsikko, kuvaus, tags, isRead);
     this.url = url;
   }

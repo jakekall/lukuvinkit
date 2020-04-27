@@ -78,13 +78,11 @@ public class Ui {
 
     if (command.equals("1")) {
       listAllRecommendations();
-    }
-    else if (command.equals("2")) {
+    } else if (command.equals("2")) {
       io.print("Haettava tagi: ");
       command = io.nextCommand();
       listRecommendationsByTag(command);
-    }
-    else if (command.equals("3")) {
+    } else if (command.equals("3")) {
       io.print("Valitse haettava tyyppi: ");
       io.print("1. Kirja");
       io.print("2. Video");
@@ -93,8 +91,7 @@ public class Ui {
       io.print("\nKomento: ");
       command = io.nextCommand();
       listRecommendationsByType(command);
-    }
-    else if (command.equals("4")) {
+    } else if (command.equals("4")) {
       io.print("Haettava otsikko: ");
       command = io.nextCommand();
       listRecommendationsByTitle(command);
@@ -245,14 +242,11 @@ public class Ui {
 
     if (command.equals("1")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.KIRJA));
-    }
-    else if (command.equals("2")) {
+    } else if (command.equals("2")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.VIDEO));
-    }
-    else if (command.equals("3")) {
+    } else if (command.equals("3")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.BLOGPOST));
-    }
-    else if (command.equals("4")) {
+    } else if (command.equals("4")) {
       recommendations.addAll(kasittely.getRecommendationsByType(LukuvinkkiTyyppi.PODCAST));
     }
     io.print("\nTallennetut lukuvinkit: ");
