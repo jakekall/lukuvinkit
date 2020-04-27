@@ -95,7 +95,9 @@ public class Ui {
       listRecommendationsByType(command);
     }
     else if (command.equals("4")) {
-      // otsikon perusteella listaaminen
+      io.print("Haettava otsikko: ");
+      command = io.nextCommand();
+      listRecommendationsByTitle(command);
     }
   }
 
@@ -228,6 +230,12 @@ public class Ui {
 
   public void listRecommendationsByTag(String tag) throws SQLException {
     List<Lukuvinkki> recommendations = kasittely.getRecommendationsByTag(tag);
+    io.print("\nTallennetut lukuvinkit: ");
+    formRecommendationList(recommendations);
+  }
+
+  public void listRecommendationsByTitle(String title) throws SQLException {
+    List<Lukuvinkki> recommendations = kasittely.getRecommendationsByTitle(title);
     io.print("\nTallennetut lukuvinkit: ");
     formRecommendationList(recommendations);
   }

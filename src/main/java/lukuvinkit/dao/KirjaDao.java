@@ -70,6 +70,25 @@ public class KirjaDao implements Dao<Kirja, Integer> {
     return books;
   }
 
+  public List<Kirja> listByTitle(String title) throws SQLException {
+    Connection connection = db.getConnection();
+    PreparedStatement stmt = connection.prepareStatement(
+        "SELECT lukuvinkki.id as id, otsikko, kirjailija, kuvaus, nimi, luettu FROM Lukuvinkki "
+            + "INNER JOIN Kirja ON kirja.lukuvinkki_id = lukuvinkki.id "
+            + "LEFT JOIN Tagi ON tagi.lukuvinkki_id = lukuvinkki.id "
+            + "WHERE otsikko LIKE ? "
+            + "ORDER BY lukuvinkki.id;");
+    stmt.setString(1, "%" + title + "%");
+    ResultSet rs = stmt.executeQuery();
+    List<Kirja> books = new ArrayList<>();
+    createListFromResultSet(rs, books);
+    rs.close();
+    stmt.close();
+    connection.close();
+
+    return books;
+  }
+
   @Override
   public List<Kirja> listByTag(String tagFilter) throws SQLException {
     Connection connection = db.getConnection();
