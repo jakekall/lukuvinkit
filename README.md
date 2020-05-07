@@ -30,6 +30,7 @@ java -jar lukuvinkit.jar
 
 ## Dokumentaatio
 
+- [Raportti](https://docs.google.com/document/d/1weSABCXKqj10x4lfeFVsByf7_qrgWhpoNlgBXlsVwGM)  
 - [Käyttöohje](https://github.com/JakeKallioniemi/lukuvinkit/blob/master/docs/instructions.md)
 - [Backlog](https://docs.google.com/spreadsheets/d/18OQs5y0xmqaCHNm_Hrr4ZT3DVNZB9DsdyWB34OepY64/)
 - [Definition of done](https://github.com/JakeKallioniemi/lukuvinkit/blob/master/docs/dod.md)
